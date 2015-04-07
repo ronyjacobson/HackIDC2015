@@ -2,7 +2,7 @@
 <resources>
 
     <color name="transparent">#FFFFFF</color>
-    <color name="actionbar_background">#DF0101</color>
+    <color name="actionbar_background">#F20000</color>
     <color name="actionbar_text">#FFFFFF</color>
     
     <!--  Tabs  -->
