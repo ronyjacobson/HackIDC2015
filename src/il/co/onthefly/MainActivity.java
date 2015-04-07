@@ -1,4 +1,6 @@
-package com.example.onthefly;
+package il.co.onthefly;
+
+import com.example.onthefly.R;
 
 import android.app.Activity;
 import android.os.Bundle;
