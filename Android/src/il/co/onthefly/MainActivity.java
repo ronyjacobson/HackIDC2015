@@ -28,6 +28,7 @@ public class MainActivity extends FragmentActivity {
 		actionBar = getActionBar();
 		// Enable Tabs on Action Bar
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+	    
 		ActionBar.TabListener tabListener = new ActionBar.TabListener() {
 			@Override
 			public void onTabReselected(android.app.ActionBar.Tab tab,

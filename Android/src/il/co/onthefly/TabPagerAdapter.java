@@ -14,13 +14,13 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
 	public Fragment getItem(int i) {
 		switch (i) {
 		case 0:
-			// Fragement for Android Tab
+			// Fragement for Feed Tab
 			return new FeedActivity();
 		case 1:
-			// Fragment for Ios Tab
+			// Fragment for People Tab
 			return new PeopleActivity();
 		case 2:
-			// Fragment for Windows Tab
+			// Fragment for Chat Tab
 			return new ChatActivity();
 		}
 		return null;
