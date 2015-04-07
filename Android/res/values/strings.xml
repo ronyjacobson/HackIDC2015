@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">onTheFly</string>
-    <string name="hello_world">Hello world!</string>
+	<!-- Tabs -->
+    <string name="app_name">OnTheFly</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Tabs -->
+    <string name="tab_feed">FEED</string>
+    <string name="tab_chat">CHAT</string>
+    <string name="tab_people">PEOPLE</string>
 </resources>

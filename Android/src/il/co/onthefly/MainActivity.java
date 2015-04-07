@@ -48,11 +48,11 @@ public class MainActivity extends FragmentActivity {
 			}
 		};
 		// Add New Tab
-		actionBar.addTab(actionBar.newTab().setText("Feed")
+		actionBar.addTab(actionBar.newTab().setText(R.string.tab_feed)
 				.setTabListener(tabListener));
-		actionBar.addTab(actionBar.newTab().setText("People")
+		actionBar.addTab(actionBar.newTab().setText(R.string.tab_people)
 				.setTabListener(tabListener));
-		actionBar.addTab(actionBar.newTab().setText("Chat")
+		actionBar.addTab(actionBar.newTab().setText(R.string.tab_chat)
 				.setTabListener(tabListener));
 	}
 }
