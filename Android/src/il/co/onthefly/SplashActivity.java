@@ -26,7 +26,7 @@ public class SplashActivity extends Activity {
 		actionBar.hide();
 		
 //		// Set Layout 
-//        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.activity_splash);
 //        /**
 //        /* New Handler to start the Menu-Activity 
 //         * and close this Splash-Screen after some seconds.*/
