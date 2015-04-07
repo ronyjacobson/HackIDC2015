@@ -18,10 +18,10 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
 			return new FeedActivity();
 		case 1:
 			// Fragment for Ios Tab
-			return new ChatActivity();
+			return new PeopleActivity();
 		case 2:
 			// Fragment for Windows Tab
-			return new PeopleActivity();
+			return new ChatActivity();
 		}
 		return null;
 	}
