@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="5">
+
+    <!-- User Photo -->
+
+    <ImageView
+        android:id="@+id/feed_user_img"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/ic_launcher" />
+
+    <!-- User Details -->
+
+    <LinearLayout
+        android:id="@+id/left_side_feed_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/right_side_feed_item"
+        android:layout_weight="4"
+        android:orientation="vertical" >
+
+        <!-- Name -->
+
+        <TextView
+            android:id="@+id/feed_user_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User Name"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="bold" />
+
+        <!-- Details -->
+
+        <TextView
+            android:id="@+id/feed_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="User details..."
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        <!-- Review rank bar -->
+
+    </LinearLayout>
+
+
+</LinearLayout>

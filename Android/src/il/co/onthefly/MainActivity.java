@@ -49,9 +49,9 @@ public class MainActivity extends FragmentActivity {
 		// Add New Tab
 		actionBar.addTab(actionBar.newTab().setText("Feed")
 				.setTabListener(tabListener));
-		actionBar.addTab(actionBar.newTab().setText("Chat")
-				.setTabListener(tabListener));
 		actionBar.addTab(actionBar.newTab().setText("People")
+				.setTabListener(tabListener));
+		actionBar.addTab(actionBar.newTab().setText("Chat")
 				.setTabListener(tabListener));
 	}
 }
