@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<!-- Tabs -->
+
+    <!-- Tabs -->
     <string name="app_name">OnTheFly</string>
     <string name="action_settings">Settings</string>
 
@@ -8,4 +9,22 @@
     <string name="tab_feed">FEED</string>
     <string name="tab_chat">CHAT</string>
     <string name="tab_people">PEOPLE</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <!--  General Strings -->
+    <string name="ok">OK</string>
+    <string name="error">Error!</string>
+    <string name="success">Success!</string>
+    <string name="cancelled">Cancelled</string>
+    <string name="permission_not_granted">Permission not granted.</string>
+    
+    <!-- Facebook Strings -->
+    <string name="successfully_posted_post">Post successfully posted!</string>
+    <string name="status_update">I am also using OnTheFly!</string>
+    <string name="photo_post">Post Photo</string>
+    <string name="no_place_selected">No place selected.</string>
+    <string name="you_picked">You picked</string>
+    <string name="no_friends_selected">No friends selected.</string>
+
 </resources>

@@ -25,27 +25,27 @@ public class SplashActivity extends Activity {
 		android.app.ActionBar actionBar = getActionBar();
 		actionBar.hide();
 		
-//		// Set Layout 
+		// Set Layout 
         setContentView(R.layout.activity_splash);
-//        /**
-//        /* New Handler to start the Menu-Activity 
-//         * and close this Splash-Screen after some seconds.*/
-//        new Handler().postDelayed(new Runnable(){
-//            @Override
-//            public void run() {
-//                /* Create an Intent that will start the next Activity. */
-//            	/* Prompt login if the user isn't logged in or the type choosing screen otherwise. */
-//            	if (!LoginActivity.user.isLoggedIn()){
-//            		Intent mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
-//                	//Intent mainIntent = new Intent(SplashActivity.this, TypeChooserActivity.class);
-//                    SplashActivity.this.startActivity(mainIntent);
-//                    SplashActivity.this.finish();
-//            	} else {
-//            		Intent mainIntent = new Intent(SplashActivity.this, TypeChooserActivity.class);
-//                    SplashActivity.this.startActivity(mainIntent);
-//                    SplashActivity.this.finish();
-//            	}
-//            }
-//        }, SPLASH_DISPLAY_LENGHT);
-    }
+        /**
+        /* New Handler to start the Menu-Activity 
+         * and close this Splash-Screen after some seconds.*/
+        new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                /* Create an Intent that will start the next Activity. */
+            	/* Prompt login if the user isn't logged in or the type choosing screen otherwise. */
+            	// if (!LoginActivity.user.isLoggedIn()){
+            	//	Intent mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
+                //	//Intent mainIntent = new Intent(SplashActivity.this, TypeChooserActivity.class);
+                //    SplashActivity.this.startActivity(mainIntent);
+                //    SplashActivity.this.finish();
+            	//} else {
+            		Intent mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
+                    SplashActivity.this.startActivity(mainIntent);
+                    SplashActivity.this.finish();
+            	}
+            //}
+        }, SPLASH_DISPLAY_LENGHT);
+    }    
 }
