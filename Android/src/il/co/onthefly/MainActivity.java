@@ -25,10 +25,11 @@ public class MainActivity extends FragmentActivity implements
 		ConnectionCallbacks, OnConnectionFailedListener {
 	ViewPager Tab;
 	TabPagerAdapter TabAdapter;
+	
+	//Maps Integration
 	ActionBar actionBar;
 	GoogleApiClient googleApiClient;
 	Location lastLocation;
-	User activeUser;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
