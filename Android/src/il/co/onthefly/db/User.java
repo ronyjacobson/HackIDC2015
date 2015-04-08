@@ -217,23 +217,24 @@ public class User {
 	public User(String facebookID, String userImage,
 			String firstName, String lastName, String birthday,
 			String country, String email, String school, String degree,
-			String work, String flightNum, String fromAirport,
-			String destinationAirport) {
+			String work, String flightNum, String origin,
+			String destination) {
+		
 		super();
 		this.facebookID = facebookID;
 		this.userImage = userImage;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthday = birthday;
-		this.kids = "0";
+		this.kids = "1";
 		this.country = country;
 		this.email = email;
 		this.school = school;
 		this.degree = degree;
 		this.work = work;
 		this.flightNum = flightNum;
-		this.origin = fromAirport;
-		this.destination = destinationAirport;
+		this.origin = origin;
+		this.destination = destination;
 	}
 
 	public User parseJsonToUserItem(String jsonStr) {

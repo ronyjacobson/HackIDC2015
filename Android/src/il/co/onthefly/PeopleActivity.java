@@ -1,5 +1,6 @@
 package il.co.onthefly;
 
+import il.co.onthefly.db.FeedEntry;
 import il.co.onthefly.db.User;
 
 import java.util.ArrayList;
@@ -169,6 +170,16 @@ public class PeopleActivity extends Fragment {
 			User user = usersList.get(position);
 			holder.name.setText(user.getFirstName() + ", " + user.getAge());
 			// holder.userImage.setImageResource(R.drawable.ic_launcher);
+			
+			
+			setDetails(new Random().nextInt(7), holder.detail0,
+					holder.detailImage0, user);
+			setDetails(new Random().nextInt(7), holder.detail1,
+					holder.detailImage1, user);
+			setDetails(new Random().nextInt(7), holder.detail2,
+					holder.detailImage2, user);
+			
+			/** When DB is Integrated 
 			HashSet<Integer> types = LoginActivity.currentUser
 					.getDetailsTypes();
 
@@ -177,7 +188,7 @@ public class PeopleActivity extends Fragment {
 			for (int detailNum = 0; detailNum < numOfDetails; detailNum++) {
 				int randItem = new Random().nextInt(types.size());
 				int i = 0;
-				Integer type=0;
+				Integer type = 0;
 
 				for (Integer set_type : types) {
 					if (i == randItem) {
@@ -195,6 +206,9 @@ public class PeopleActivity extends Fragment {
 					setDetails(type, holder.detail2, holder.detailImage2, user);
 				}
 			}
+			**/
+			
+			
 			return convertView;
 		}
 
@@ -275,29 +289,51 @@ public class PeopleActivity extends Fragment {
 
 		/** MOCK USERS **/
 
-		User u1 = new User("Rony", "Jacobson");
+		User u1 = new User("facebookID", "img_src", "Rony", "Jacobson",
+				"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+				"Paris");
 		usersList.add(u1);
-		u1 = new User("Alon", "Grinshpoon");
+
+		FeedEntry entry1 = new FeedEntry(u1,
+				"This is the content of the status");
 		usersList.add(u1);
-		u1 = new User("Idan", "Tsitaiat");
+		
+		u1 = new User("facebookID", "img_src", "Alon", "Grinshpoon",
+				"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+				"Paris");
 		usersList.add(u1);
-		u1 = new User("Aviad", "Levi");
+		
+		u1 = new User("facebookID", "img_src", "Dani", "B", "08/07/89",
+				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
 		usersList.add(u1);
-		u1 = new User("Rony", "Jacobson");
+		
+		u1 = new User("facebookID", "img_src", "Idan", "Tsitaiat", "08/07/89",
+				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
 		usersList.add(u1);
-		u1 = new User("Alon", "Grinshpoon");
+		
+		u1 = new User("facebookID", "img_src", "Aviad", "Levi", "08/07/89",
+				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
 		usersList.add(u1);
-		u1 = new User("Idan", "Tsitaiat");
+		
+		u1 = new User("facebookID", "img_src", "Rony", "Jacobson", "08/07/89",
+				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
 		usersList.add(u1);
-		u1 = new User("Aviad", "Levi");
+		
+		u1 = new User("facebookID", "img_src", "Alon", "Grinshpoon",
+				"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+				"Paris");
 		usersList.add(u1);
-		u1 = new User("Rony", "Jacobson");
+		
+		u1 = new User("facebookID", "img_src", "Idan", "Tsitaiat", "08/07/89",
+				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
 		usersList.add(u1);
-		u1 = new User("Alon", "Grinshpoon");
+		
+		u1 = new User("facebookID", "img_src", "Aviad", "Levi", "08/07/89",
+				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
 		usersList.add(u1);
-		u1 = new User("Idan", "Tsitaiat");
-		usersList.add(u1);
-		u1 = new User("Aviad", "Levi");
+		
+		u1 = new User("facebookID", "img_src", "Rony", "Jacobson", "08/07/89",
+				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
 		usersList.add(u1);
 
 		return usersList;

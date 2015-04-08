@@ -13,7 +13,6 @@ import com.wdullaer.swipeactionadapter.SwipeActionAdapter.SwipeActionListener;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.DropBoxManager.Entry;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,89 +38,90 @@ public class FeedActivity extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
-		
+
 		ArrayList<FeedEntry> feedEntrysList = getFeed();
-		
-		
+
 		View feed = inflater.inflate(R.layout.activity_feed, container, false);
 
 		/* List View */
 		ListView listView = (ListView) feed.findViewById(R.id.list_feed);
 		FeedListAdapter feedListAdapter = new FeedListAdapter(getActivity(),
 				getFeed());
-		
-		/* Swipe Adapter 
-		 * Wrap list adapter with swipe 
+
+		/*
+		 * Swipe Adapter Wrap list adapter with swipe
 		 */
-		final SwipeActionAdapter swipeAdapter = new SwipeActionAdapter(feedListAdapter);
+		final SwipeActionAdapter swipeAdapter = new SwipeActionAdapter(
+				feedListAdapter);
 		swipeAdapter.setListView(listView);
-		
+
 		/* Set swipe adapter as list adapter */
 		listView.setAdapter(swipeAdapter);
-		
+
 		// Set backgrounds for the swipe directions
-				swipeAdapter
-			            .addBackground(SwipeDirections.DIRECTION_FAR_RIGHT,R.layout.row_bg_right_far)
-			            .addBackground(SwipeDirections.DIRECTION_NORMAL_RIGHT,R.layout.row_bg_right);
+		swipeAdapter.addBackground(SwipeDirections.DIRECTION_FAR_RIGHT,
+				R.layout.row_bg_right_far).addBackground(
+				SwipeDirections.DIRECTION_NORMAL_RIGHT, R.layout.row_bg_right);
 
-				// Listen to swipes
-				swipeAdapter.setSwipeActionListener(new SwipeActionListener(){
-			        @Override
-			        public boolean hasActions(int position){
-			            // All items can be swiped
-			            return true;
-			        }
+		// Listen to swipes
+		swipeAdapter.setSwipeActionListener(new SwipeActionListener() {
+			@Override
+			public boolean hasActions(int position) {
+				// All items can be swiped
+				return true;
+			}
 
-			        @Override
-			        public boolean shouldDismiss(int position, int direction){
-			            // Only dismiss an item when swiping normal left
-			            return true;
-			        }
+			@Override
+			public boolean shouldDismiss(int position, int direction) {
+				// Only dismiss an item when swiping normal left
+				return true;
+			}
 
-			        @Override
-			        public void onSwipe(int[] positionList, int[] directionList){
-			            for(int i=0;i<positionList.length;i++) {
-			                int direction = directionList[i];
-			                int position = positionList[i];
-			                String dir = "";
+			@Override
+			public void onSwipe(int[] positionList, int[] directionList) {
+				for (int i = 0; i < positionList.length; i++) {
+					int direction = directionList[i];
+					int position = positionList[i];
+					String dir = "";
 
-			                switch (direction) {
-			                    case SwipeDirections.DIRECTION_FAR_LEFT:
-			                        dir = "Far left";
-			                        break;
-			                    case SwipeDirections.DIRECTION_NORMAL_LEFT:
-			                        dir = "Left";
-			                        break;
-			                    case SwipeDirections.DIRECTION_FAR_RIGHT:
-			                        dir = "Far right";
-			                        break;
-			                    case SwipeDirections.DIRECTION_NORMAL_RIGHT:
-			                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity().getApplicationContext());
-			                        builder.setTitle("Test Dialog").setMessage("You swiped right").create().show();
-			                        dir = "Right";
-			                        break;
-			                }
-			                if (dir.equals("Far left") || dir.equals("Left")){
-			                	// Poke Disabled
-			                } else {
-			                	// Move to chat
-			                	MainActivity.Tab.setCurrentItem(2, true);
-			                }
-			                
-			                swipeAdapter.notifyDataSetChanged();
-			            }
-			        }
-			    });
-		
-		/* Add new post*/
-		ImageView addBtn= (ImageView) feed.findViewById(R.id.feed_fab);
+					switch (direction) {
+					case SwipeDirections.DIRECTION_FAR_LEFT:
+						dir = "Far left";
+						break;
+					case SwipeDirections.DIRECTION_NORMAL_LEFT:
+						dir = "Left";
+						break;
+					case SwipeDirections.DIRECTION_FAR_RIGHT:
+						dir = "Far right";
+						break;
+					case SwipeDirections.DIRECTION_NORMAL_RIGHT:
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								getActivity().getApplicationContext());
+						builder.setTitle("Test Dialog")
+								.setMessage("You swiped right").create().show();
+						dir = "Right";
+						break;
+					}
+					if (dir.equals("Far left") || dir.equals("Left")) {
+						// Poke Disabled
+					} else {
+						// Move to chat
+						MainActivity.Tab.setCurrentItem(2, true);
+					}
+
+					swipeAdapter.notifyDataSetChanged();
+				}
+			}
+		});
+
+		/* Add new post */
+		ImageView addBtn = (ImageView) feed.findViewById(R.id.feed_fab);
 		addBtn.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				// TODO
+
 			}
 		});
 
@@ -186,7 +186,8 @@ public class FeedActivity extends Fragment {
 			// Set Feed:
 			holder.userName.setText(feedEntry.getUser().getFirstName());
 			holder.content.setText(feedEntry.getContent());
-			holder.comments.setText(setCommentsText(feedEntry.getComments().size()));
+			holder.comments.setText(setCommentsText(feedEntry.getComments()
+					.size()));
 			holder.meetText.setVisibility(View.GONE);
 			int index = feedEntry.getEntryTypeCode();
 
@@ -200,7 +201,7 @@ public class FeedActivity extends Fragment {
 			if (size == 0) {
 				return "No comments yet";
 			} else {
-				return (size+" comments");
+				return (size + " comments");
 			}
 		}
 
@@ -266,73 +267,63 @@ public class FeedActivity extends Fragment {
 
 		/** Get Users from DB and parse them to an array **/
 		ArrayList<FeedEntry> feedEntrysList = new ArrayList<FeedEntry>();
-		
-		
-		
 
 		/** MOCK FEED Entries **/
-		
-		User u1 = new User("Alon", "Grinshpoon");
-		FeedEntry entry1 = new FeedEntry(u1, "This is the content of the status");
+
+		User u1 = new User("facebookID", "img_src", "Rony", "Jacobson",
+				"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+				"Paris");
+
+		FeedEntry entry1 = new FeedEntry(u1,
+				"This is the content of the status");
 		feedEntrysList.add(entry1);
-		
-		u1 = new User("Rony", "Jacobson");
-		entry1 = new FeedEntry(u1 , "This is the content of the status");
+
+		u1 = new User("facebookID", "img_src", "Alon", "Grinshpoon",
+				"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+				"Paris");
+		entry1 = new FeedEntry(u1, "This is the content of the status");
 		feedEntrysList.add(entry1);
-		
-		u1 = new User("Alon", "Grinshpoon");
-		entry1 = new FeedEntry(u1 , "This is the content of the status");
+
+		u1 = new User("facebookID", "img_src", "Dani", "B", "08/07/89",
+				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
+		entry1 = new FeedEntry(u1, "This is the content of the status");
 		feedEntrysList.add(entry1);
-		
-		u1 = new User("Idan", "Tsitaiat");
-		entry1 = new FeedEntry(u1 , "This is the content of the status");
+
+		u1 = new User("facebookID", "img_src", "Idan", "Tsitaiat", "08/07/89",
+				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
+		entry1 = new FeedEntry(u1, "This is the content of the status");
 		feedEntrysList.add(entry1);
-		
-		
-		u1 = new User("Aviad", "Levi");
-		entry1 = new FeedEntry(u1 , "This is the content of the status");
+
+		u1 = new User("facebookID", "img_src", "Aviad", "Levi", "08/07/89",
+				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
+		entry1 = new FeedEntry(u1, "This is the content of the status");
 		feedEntrysList.add(entry1);
-		
-		
-		u1 = new User("Rony", "Jacobson");
-		entry1 = new FeedEntry(u1 , "This is the content of the status");
+
+		u1 = new User("facebookID", "img_src", "Rony", "Jacobson", "08/07/89",
+				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
+		entry1 = new FeedEntry(u1, "This is the content of the status");
 		feedEntrysList.add(entry1);
-		
-		
-		u1 = new User("Alon", "Grinshpoon");
-		entry1 = new FeedEntry(u1 , "This is the content of the status");
+
+		u1 = new User("facebookID", "img_src", "Alon", "Grinshpoon",
+				"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+				"Paris");
+		entry1 = new FeedEntry(u1, "This is the content of the status");
 		feedEntrysList.add(entry1);
-		
-		
-		u1 = new User("Idan", "Tsitaiat");
-		entry1 = new FeedEntry(u1 , "This is the content of the status");
+
+		u1 = new User("facebookID", "img_src", "Idan", "Tsitaiat", "08/07/89",
+				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
+		entry1 = new FeedEntry(u1, "This is the content of the status");
 		feedEntrysList.add(entry1);
-		
-		
-		u1 = new User("Aviad", "Levi");
-		entry1 = new FeedEntry(u1 , "This is the content of the status");
+
+		u1 = new User("facebookID", "img_src", "Aviad", "Levi", "08/07/89",
+				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
+		entry1 = new FeedEntry(u1, "This is the content of the status");
 		feedEntrysList.add(entry1);
-		
-		
-		u1 = new User("Rony", "Jacobson");
-		entry1 = new FeedEntry(u1 , "This is the content of the status");
+
+		u1 = new User("facebookID", "img_src", "Rony", "Jacobson", "08/07/89",
+				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
+		entry1 = new FeedEntry(u1, "This is the content of the status");
 		feedEntrysList.add(entry1);
-		
-		
-		u1 = new User("Alon", "Grinshpoon");
-		entry1 = new FeedEntry(u1 , "This is the content of the status");
-		feedEntrysList.add(entry1);
-		
-		
-		u1 = new User("Idan", "Tsitaiat");
-		entry1 = new FeedEntry(u1 , "This is the content of the status");
-		feedEntrysList.add(entry1);
-		
-		
-		u1 = new User("Aviad", "Levi");
-		entry1 = new FeedEntry(u1 , "This is the content of the status");
-		feedEntrysList.add(entry1);
-		
 
 		return feedEntrysList;
 	}
