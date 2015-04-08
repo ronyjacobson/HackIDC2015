@@ -6,22 +6,101 @@
     android:background="@drawable/background"
     android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/banner_connect"
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="5dp"
-        android:gravity="left" />
+        android:layout_marginTop="30dp"
+        android:background="#C00000"
+        android:paddingBottom="5dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:text="Connect"
+        android:textColor="#FFFFFF" />
 
-    <com.facebook.widget.LoginButton
-        android:id="@+id/button_login_facebook"
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="5dp"
-        android:gravity="left"
-        facebook:confirm_logout="false"
-        facebook:fetch_user_info="true" />
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="30dp"
+        android:background="#0070C0"
+        android:clickable="true"
+        android:orientation="vertical" >
+
+        <com.facebook.widget.LoginButton
+            android:id="@+id/button_login_facebook"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            facebook:confirm_logout="false"
+            facebook:fetch_user_info="true" 
+            style="@style/FacebookLoginButton"
+            android:text=""
+            facebook:login_text=""
+            facebook:logout_text="" 
+            android:background="@android:color/transparent"/>
+
+        <ImageView
+            android:id="@+id/button_login_facebook_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_facebook" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="30dp"
+        android:background="#C20000"
+        android:clickable="true"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/button_login_google_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_google_plus" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="30dp"
+        android:background="#5B9BD5"
+        android:clickable="true"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/button_login_twitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_twitter" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="30dp"
+        android:background="#1F4E79"
+        android:clickable="true"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/button_login_linkedin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_linkedin" />
+    </RelativeLayout>
 
 </LinearLayout>
