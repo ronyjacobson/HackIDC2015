@@ -5,6 +5,11 @@ import il.co.onthefly.db.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
+import com.wdullaer.swipeactionadapter.SwipeActionAdapter.SwipeActionListener;
+import com.wdullaer.swipeactionadapter.SwipeDirections;
+
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +20,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PeopleActivity extends Fragment {
 
@@ -28,8 +34,69 @@ public class PeopleActivity extends Fragment {
 		ListView listView = (ListView) people.findViewById(R.id.list_people);
 		UsersListAdapter usersListAdapter = new UsersListAdapter(getActivity(),
 				getUsers());
-		listView.setAdapter(usersListAdapter);
+		
+		/* Swipe Adapter 
+		 * Wrap list adapter with swipe 
+		 */
+		final SwipeActionAdapter swipeAdapter = new SwipeActionAdapter(usersListAdapter);
+		swipeAdapter.setListView(listView);
+		
+		/* Set swipe adapter as list adapter */
+		listView.setAdapter(swipeAdapter);
+		
+	    // Set backgrounds for the swipe directions
+		swipeAdapter.addBackground(SwipeDirections.DIRECTION_FAR_LEFT,R.layout.row_bg_left_far)
+	            .addBackground(SwipeDirections.DIRECTION_NORMAL_LEFT,R.layout.row_bg_left)
+	            .addBackground(SwipeDirections.DIRECTION_FAR_RIGHT,R.layout.row_bg_right_far)
+	            .addBackground(SwipeDirections.DIRECTION_NORMAL_RIGHT,R.layout.row_bg_right);
 
+		// Listen to swipes
+		swipeAdapter.setSwipeActionListener(new SwipeActionListener(){
+	        @Override
+	        public boolean hasActions(int position){
+	            // All items can be swiped
+	            return true;
+	        }
+
+	        @Override
+	        public boolean shouldDismiss(int position, int direction){
+	            // Only dismiss an item when swiping normal left
+	            return direction == SwipeDirections.DIRECTION_NORMAL_LEFT;
+	        }
+
+	        @Override
+	        public void onSwipe(int[] positionList, int[] directionList){
+	            for(int i=0;i<positionList.length;i++) {
+	                int direction = directionList[i];
+	                int position = positionList[i];
+	                String dir = "";
+
+	                switch (direction) {
+	                    case SwipeDirections.DIRECTION_FAR_LEFT:
+	                        dir = "Far left";
+	                        break;
+	                    case SwipeDirections.DIRECTION_NORMAL_LEFT:
+	                        dir = "Left";
+	                        break;
+	                    case SwipeDirections.DIRECTION_FAR_RIGHT:
+	                        dir = "Far right";
+	                        break;
+	                    case SwipeDirections.DIRECTION_NORMAL_RIGHT:
+	                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity().getApplicationContext());
+	                        builder.setTitle("Test Dialog").setMessage("You swiped right").create().show();
+	                        dir = "Right";
+	                        break;
+	                }
+	                Toast.makeText(
+	                		getActivity().getApplicationContext(),
+	                        dir + " swipe Action triggered on " + swipeAdapter.getItem(position),
+	                        Toast.LENGTH_SHORT
+	                ).show();
+	                swipeAdapter.notifyDataSetChanged();
+	            }
+	        }
+	    });
+	    
 		return people;
 	}
 
