@@ -1,20 +1,12 @@
 package il.co.onthefly.db;
 
 import il.co.onthefly.LoginActivity;
-import il.co.onthefly.R;
 
-import java.util.Collection;
-import java.util.Currency;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Random;
-import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.widget.ImageView;
-import android.widget.TextView;
 
 public class User {
 
@@ -51,19 +43,36 @@ public class User {
 	}
 
 	public String getId() {
-		return id;
+		if (id != null) {
+			return id;
+		} else {
+			return "";
+		}
 	}
 
 	public boolean withKids() {
-		return (kids.equals("1"));
+		if (kids != null) {
+			return (kids.equals("1"));
+		} else {
+			return false;
+		}
 	}
 
 	public String getAge() {
-		return age;
+		if (age != null) {
+			return age;
+		} else {
+			return "";
+		}
 	}
 
 	public String getUserImage() {
-		return userImage;
+		if (userImage != null) {
+			return userImage;
+		} else {
+			return "";
+		}
+
 	}
 
 	public void setAge(String age) {
@@ -71,11 +80,19 @@ public class User {
 	}
 
 	public String getFirstName() {
-		return firstName;
+		if (firstName != null) {
+			return firstName;
+		} else {
+			return "";
+		}
 	}
 
 	public String getLastName() {
-		return lastName;
+		if (lastName != null) {
+			return lastName;
+		} else {
+			return "";
+		}
 	}
 
 	public String getFullName() {
@@ -83,23 +100,43 @@ public class User {
 	}
 
 	public String getBirthday() {
-		return birthday;
+		if (birthday != null) {
+			return birthday;
+		} else {
+			return "";
+		}
 	}
 
 	public String getCountry() {
-		return country;
+		if (country != null) {
+			return country;
+		} else {
+			return "";
+		}
 	}
 
 	public String getEmail() {
-		return email;
+		if (email != null) {
+			return email;
+		} else {
+			return "";
+		}
 	}
 
 	public String getPhone() {
-		return phone;
+		if (phone != null) {
+			return phone;
+		} else {
+			return "";
+		}
 	}
 
 	public String getSchool() {
-		return school;
+		if (school != null) {
+			return school;
+		} else {
+			return "";
+		}
 	}
 
 	public HashSet<Integer> getDetailsTypes() {
@@ -107,11 +144,19 @@ public class User {
 	}
 
 	public String getDegree() {
-		return degree;
+		if (degree != null) {
+			return degree;
+		} else {
+			return "";
+		}
 	}
 
 	public String getWork() {
-		return work;
+		if (work != null) {
+			return work;
+		} else {
+			return "";
+		}
 	}
 
 	private void setId(String id) {
@@ -119,23 +164,44 @@ public class User {
 	}
 
 	public String getFacebookID() {
-		return facebookID;
+		if (facebookID != null) {
+			return facebookID;
+		} else {
+			return "";
+		}
 	}
 
 	public String getFlightNum() {
-		return flightNum;
+		if (flightNum != null) {
+			return flightNum;
+		} else {
+			return "";
+		}
 	}
 
 	public String getFromAirport() {
-		return origin;
+		if (origin != null) {
+			return origin;
+		} else {
+			return "";
+		}
 	}
 
 	public String getDestinationAirport() {
-		return destination;
+		if (destination != null) {
+			return destination;
+		} else {
+			return "";
+		}
+
 	}
 
 	public String getConnectionAirport() {
-		return connectionAirport;
+		if (connectionAirport != null) {
+			return connectionAirport;
+		} else {
+			return "";
+		}
 	}
 
 	public void setFirstName(String firstName) {
@@ -213,13 +279,12 @@ public class User {
 		this.kids = string;
 
 	}
-	
-	public User(String facebookID, String userImage,
-			String firstName, String lastName, String birthday,
-			String country, String email, String school, String degree,
-			String work, String flightNum, String origin,
-			String destination) {
-		
+
+	public User(String facebookID, String userImage, String firstName,
+			String lastName, String birthday, String country, String email,
+			String school, String degree, String work, String flightNum,
+			String origin, String destination) {
+
 		super();
 		this.facebookID = facebookID;
 		this.userImage = userImage;
@@ -235,36 +300,69 @@ public class User {
 		this.flightNum = flightNum;
 		this.origin = origin;
 		this.destination = destination;
+		this.watingTime = (new Random().nextInt(16)) + " hours wait!";
 	}
 
-	public User parseJsonToUserItem(String jsonStr) {
+	public static User parseJsonToUserItem(JSONObject json) {
 		User user = new User();
 
 		try {
-			JSONObject json = new JSONObject(jsonStr);
-			try {
-				user.setId(json.getString("id"));
-				user.setCountry(json.getString("country"));
-				user.setUserImage(json.getString("img"));
-				user.setFirstName(json.getString("name"));
-				user.setAge(json.getString("age"));
-				user.setConnectionAirport(json.getString("airport"));
-				user.setWaitingTime(json.getString("waiting"));
-				user.setWork(json.getString("work"));
-				user.setDegree(json.getString("studies"));
-				user.setKids(json.getString("kids"));
-				user.setDestinationAirport(json.getString("destination"));
-				LoginActivity.currentUser.setDetails(user); 
-				return user;
-
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			user.setId(json.getString("id"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return null;
-
+		try {
+			user.setCountry(json.getString("country"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		try {
+			user.setUserImage(json.getString("img"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		try {
+			user.setFirstName(json.getString("name"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		try {
+			user.setAge(json.getString("age"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		try {
+			user.setConnectionAirport(json.getString("airport"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		try {
+			user.setWaitingTime(json.getString("waiting"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		try {
+			user.setWork(json.getString("work"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		try {
+			user.setDegree(json.getString("studies"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		try {
+			user.setKids(json.getString("kids"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		try {
+			user.setDestinationAirport(json.getString("destination"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		user.setDetails(user);
+		return user;
 	}
 
 	private void setDetails(User user) {
@@ -290,8 +388,15 @@ public class User {
 				.getConnectionAirport()) {
 			detailsTypes.add(6);
 		}
-		
 
+	}
+
+	public String getWatingTime() {
+		if (watingTime != null) {
+			return watingTime;
+		} else {
+			return "";
+		}
 	}
 
 }

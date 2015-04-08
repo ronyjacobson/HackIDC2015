@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:paddingBottom="4dp" >
+    android:layout_marginBottom="4dp" >
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -50,7 +50,7 @@
             android:paddingLeft="4dp"/>
     </LinearLayout>
 
-    <ImageView
+    <com.facebook.widget.ProfilePictureView
         android:id="@+id/feed_item_user_img"
         android:layout_width="50dp"
         android:layout_height="50dp"
