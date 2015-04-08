@@ -1,14 +1,12 @@
 package il.co.onthefly;
 
+import il.co.onthefly.db.AsyncResponse;
 import il.co.onthefly.db.FeedEntry;
+import il.co.onthefly.db.QueryManager;
 import il.co.onthefly.db.User;
 
 import java.util.ArrayList;
 import java.util.Random;
-
-import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
-import com.wdullaer.swipeactionadapter.SwipeDirections;
-import com.wdullaer.swipeactionadapter.SwipeActionAdapter.SwipeActionListener;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -21,13 +19,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class FeedActivity extends Fragment {
+import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
+import com.wdullaer.swipeactionadapter.SwipeActionAdapter.SwipeActionListener;
+import com.wdullaer.swipeactionadapter.SwipeDirections;
+
+public class FeedActivity extends Fragment implements AsyncResponse {
 
 	String[] meetText = new String[] { "You should meet!", "This sounds fun!",
-			"You should join!" };
+			"Why not join?" };
 
 	public String getMeetText() {
 		Random r = new Random();
@@ -35,18 +37,32 @@ public class FeedActivity extends Fragment {
 		return meetText[i];
 	}
 
+	ArrayList<FeedEntry> feedEntrysList;
+	QueryManager qm;
+	View rootView;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
-		ArrayList<FeedEntry> feedEntrysList = getFeed();
+		qm = new QueryManager(this);
+		qm.execute("http://192.185.24.123/~otf/feed.php");
 
 		View feed = inflater.inflate(R.layout.activity_feed, container, false);
+		rootView = feed;
+		return feed;
+
+	}
+
+	public void processFinish(String result) {
+
+		feedEntrysList = qm.parseFeedResponse(result);
+		((ProgressBar) rootView.findViewById(R.id.progress_feed))
+				.setVisibility(View.GONE);
 
 		/* List View */
-		ListView listView = (ListView) feed.findViewById(R.id.list_feed);
+		ListView listView = (ListView) rootView.findViewById(R.id.list_feed);
 		FeedListAdapter feedListAdapter = new FeedListAdapter(getActivity(),
-				getFeed());
+				feedEntrysList);
 
 		/*
 		 * Swipe Adapter Wrap list adapter with swipe
@@ -115,7 +131,7 @@ public class FeedActivity extends Fragment {
 		});
 
 		/* Add new post */
-		ImageView addBtn = (ImageView) feed.findViewById(R.id.feed_fab);
+		ImageView addBtn = (ImageView) rootView.findViewById(R.id.feed_fab);
 		addBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -125,9 +141,9 @@ public class FeedActivity extends Fragment {
 			}
 		});
 
-		return feed;
 	}
 
+	
 	private class FeedListAdapter extends BaseAdapter {
 		private ArrayList<FeedEntry> feedEntrysList;
 		private LayoutInflater inflater;
@@ -158,8 +174,7 @@ public class FeedActivity extends Fragment {
 			if (convertView == null) {
 				holder = new ViewHolder();
 
-				convertView = inflater.inflate(R.layout.feed_entry_list_item,
-						null);
+				convertView = inflater.inflate(R.layout.feed_entry_list_item, null);
 
 				holder.userName = (TextView) convertView
 						.findViewById(R.id.feed_item_user_name);
@@ -184,7 +199,7 @@ public class FeedActivity extends Fragment {
 			FeedEntry feedEntry = feedEntrysList.get(position);
 
 			// Set Feed:
-			holder.userName.setText(feedEntry.getUser().getFirstName());
+			holder.userName.setText(feedEntry.getUserName());
 			holder.content.setText(feedEntry.getContent());
 			holder.comments.setText(setCommentsText(feedEntry.getComments()
 					.size()));
@@ -268,63 +283,76 @@ public class FeedActivity extends Fragment {
 		/** Get Users from DB and parse them to an array **/
 		ArrayList<FeedEntry> feedEntrysList = new ArrayList<FeedEntry>();
 
+		// QueryManager qm = new QueryManager();
+		// if (qm.DB) {
+		// String query = "http://192.185.24.123/~otf/feed.php";
+		// String response = qm.sendQueryToDB(query);
+		// feedEntrysList = qm.parseFeedResponse(response);
+		// }
+
 		/** MOCK FEED Entries **/
+		if (true) {// !qm.DB) {
+			User u1 = new User("facebookID", "img_src", "Rony", "Jacobson",
+					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+					"Paris");
 
-		User u1 = new User("facebookID", "img_src", "Rony", "Jacobson",
-				"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-				"Paris");
+			FeedEntry entry1 = new FeedEntry(u1,
+					"This is the content of the status");
+			feedEntrysList.add(entry1);
 
-		FeedEntry entry1 = new FeedEntry(u1,
-				"This is the content of the status");
-		feedEntrysList.add(entry1);
+			u1 = new User("facebookID", "img_src", "Alon", "Grinshpoon",
+					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+					"Paris");
+			entry1 = new FeedEntry(u1, "This is the content of the status");
+			feedEntrysList.add(entry1);
 
-		u1 = new User("facebookID", "img_src", "Alon", "Grinshpoon",
-				"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-				"Paris");
-		entry1 = new FeedEntry(u1, "This is the content of the status");
-		feedEntrysList.add(entry1);
+			u1 = new User("facebookID", "img_src", "Dani", "B", "08/07/89",
+					"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
+			entry1 = new FeedEntry(u1, "This is the content of the status");
+			feedEntrysList.add(entry1);
 
-		u1 = new User("facebookID", "img_src", "Dani", "B", "08/07/89",
-				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-		entry1 = new FeedEntry(u1, "This is the content of the status");
-		feedEntrysList.add(entry1);
+			u1 = new User("facebookID", "img_src", "Idan", "Tsitaiat",
+					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+					"Paris");
+			entry1 = new FeedEntry(u1, "This is the content of the status");
+			feedEntrysList.add(entry1);
 
-		u1 = new User("facebookID", "img_src", "Idan", "Tsitaiat", "08/07/89",
-				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-		entry1 = new FeedEntry(u1, "This is the content of the status");
-		feedEntrysList.add(entry1);
+			u1 = new User("facebookID", "img_src", "Aviad", "Levi", "08/07/89",
+					"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
+			entry1 = new FeedEntry(u1, "This is the content of the status");
+			feedEntrysList.add(entry1);
 
-		u1 = new User("facebookID", "img_src", "Aviad", "Levi", "08/07/89",
-				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-		entry1 = new FeedEntry(u1, "This is the content of the status");
-		feedEntrysList.add(entry1);
+			u1 = new User("facebookID", "img_src", "Rony", "Jacobson",
+					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+					"Paris");
+			entry1 = new FeedEntry(u1, "This is the content of the status");
+			feedEntrysList.add(entry1);
 
-		u1 = new User("facebookID", "img_src", "Rony", "Jacobson", "08/07/89",
-				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-		entry1 = new FeedEntry(u1, "This is the content of the status");
-		feedEntrysList.add(entry1);
+			u1 = new User("facebookID", "img_src", "Alon", "Grinshpoon",
+					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+					"Paris");
+			entry1 = new FeedEntry(u1, "This is the content of the status");
+			feedEntrysList.add(entry1);
 
-		u1 = new User("facebookID", "img_src", "Alon", "Grinshpoon",
-				"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-				"Paris");
-		entry1 = new FeedEntry(u1, "This is the content of the status");
-		feedEntrysList.add(entry1);
+			u1 = new User("facebookID", "img_src", "Idan", "Tsitaiat",
+					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+					"Paris");
+			entry1 = new FeedEntry(u1, "This is the content of the status");
+			feedEntrysList.add(entry1);
 
-		u1 = new User("facebookID", "img_src", "Idan", "Tsitaiat", "08/07/89",
-				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-		entry1 = new FeedEntry(u1, "This is the content of the status");
-		feedEntrysList.add(entry1);
+			u1 = new User("facebookID", "img_src", "Aviad", "Levi", "08/07/89",
+					"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
+			entry1 = new FeedEntry(u1, "This is the content of the status");
+			feedEntrysList.add(entry1);
 
-		u1 = new User("facebookID", "img_src", "Aviad", "Levi", "08/07/89",
-				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-		entry1 = new FeedEntry(u1, "This is the content of the status");
-		feedEntrysList.add(entry1);
-
-		u1 = new User("facebookID", "img_src", "Rony", "Jacobson", "08/07/89",
-				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-		entry1 = new FeedEntry(u1, "This is the content of the status");
-		feedEntrysList.add(entry1);
+			u1 = new User("facebookID", "img_src", "Rony", "Jacobson",
+					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+					"Paris");
+			entry1 = new FeedEntry(u1, "This is the content of the status");
+			feedEntrysList.add(entry1);
+		}
 
 		return feedEntrysList;
 	}
-}
+
+	}

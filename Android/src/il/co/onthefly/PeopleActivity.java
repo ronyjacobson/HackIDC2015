@@ -1,17 +1,14 @@
 package il.co.onthefly;
 
+import il.co.onthefly.db.AsyncResponse;
 import il.co.onthefly.db.FeedEntry;
+import il.co.onthefly.db.QueryManager;
 import il.co.onthefly.db.User;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
-
-import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
-import com.wdullaer.swipeactionadapter.SwipeActionAdapter.SwipeActionListener;
-import com.wdullaer.swipeactionadapter.SwipeDirections;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -26,89 +23,26 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PeopleActivity extends Fragment {
+import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
+import com.wdullaer.swipeactionadapter.SwipeActionAdapter.SwipeActionListener;
+import com.wdullaer.swipeactionadapter.SwipeDirections;
+
+public class PeopleActivity extends Fragment implements AsyncResponse {
+
+	ArrayList<User> usersList;
+	QueryManager qm;
+	View rootView;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		qm = new QueryManager(this);
+		qm.execute("http://192.185.24.123/~otf/match.php");
 		View people = inflater.inflate(R.layout.activity_people, container,
 				false);
-
-		/* List View */
-		ListView listView = (ListView) people.findViewById(R.id.list_people);
-		UsersListAdapter usersListAdapter = new UsersListAdapter(getActivity(),
-				getUsers());
-
-		/*
-		 * Swipe Adapter Wrap list adapter with swipe
-		 */
-		final SwipeActionAdapter swipeAdapter = new SwipeActionAdapter(
-				usersListAdapter);
-		swipeAdapter.setListView(listView);
-
-		/* Set swipe adapter as list adapter */
-		listView.setAdapter(swipeAdapter);
-
-		// Set backgrounds for the swipe directions
-		swipeAdapter
-				.addBackground(SwipeDirections.DIRECTION_FAR_LEFT,
-						R.layout.row_bg_left_far)
-				.addBackground(SwipeDirections.DIRECTION_NORMAL_LEFT,
-						R.layout.row_bg_left)
-				.addBackground(SwipeDirections.DIRECTION_FAR_RIGHT,
-						R.layout.row_bg_right_far)
-				.addBackground(SwipeDirections.DIRECTION_NORMAL_RIGHT,
-						R.layout.row_bg_right);
-
-		// Listen to swipes
-		swipeAdapter.setSwipeActionListener(new SwipeActionListener() {
-			@Override
-			public boolean hasActions(int position) {
-				// All items can be swiped
-				return true;
-			}
-
-			@Override
-			public boolean shouldDismiss(int position, int direction) {
-				// Only dismiss an item when swiping normal left
-				return direction == SwipeDirections.DIRECTION_NORMAL_LEFT;
-			}
-
-			@Override
-			public void onSwipe(int[] positionList, int[] directionList) {
-				for (int i = 0; i < positionList.length; i++) {
-					int direction = directionList[i];
-					int position = positionList[i];
-					String dir = "";
-
-					switch (direction) {
-					case SwipeDirections.DIRECTION_FAR_LEFT:
-						dir = "Far left";
-						break;
-					case SwipeDirections.DIRECTION_NORMAL_LEFT:
-						dir = "Left";
-						break;
-					case SwipeDirections.DIRECTION_FAR_RIGHT:
-						dir = "Far right";
-						break;
-					case SwipeDirections.DIRECTION_NORMAL_RIGHT:
-						AlertDialog.Builder builder = new AlertDialog.Builder(
-								getActivity().getApplicationContext());
-						builder.setTitle("Test Dialog")
-								.setMessage("You swiped right").create().show();
-						dir = "Right";
-						break;
-					}
-					Toast.makeText(
-							getActivity().getApplicationContext(),
-							dir + " swipe Action triggered on "
-									+ swipeAdapter.getItem(position),
-							Toast.LENGTH_SHORT).show();
-					swipeAdapter.notifyDataSetChanged();
-				}
-			}
-		});
+		rootView = people;
 		return people;
+
 	}
 
 	private class UsersListAdapter extends BaseAdapter {
@@ -169,29 +103,31 @@ public class PeopleActivity extends Fragment {
 
 			User user = usersList.get(position);
 			holder.name.setText(user.getFirstName() + ", " + user.getAge());
+			holder.timeLeft.setText(user.getWatingTime());
 			// holder.userImage.setImageResource(R.drawable.ic_launcher);
 			
+			/**
+			 * setDetails(new Random().nextInt(7), holder.detail0,
+			 * holder.detailImage0, user); setDetails(new Random().nextInt(7),
+			 * holder.detail1, holder.detailImage1, user); setDetails(new
+			 * Random().nextInt(7), holder.detail2, holder.detailImage2, user);
+			 **/
 			
-			setDetails(new Random().nextInt(7), holder.detail0,
-					holder.detailImage0, user);
-			setDetails(new Random().nextInt(7), holder.detail1,
-					holder.detailImage1, user);
-			setDetails(new Random().nextInt(7), holder.detail2,
-					holder.detailImage2, user);
-			
-			/** When DB is Integrated 
-			HashSet<Integer> types = LoginActivity.currentUser
-					.getDetailsTypes();
+			/**
+			 * When DB is Integrated
+			 **/
+			HashSet<Integer> types = user.getDetailsTypes();
 
 			int numOfDetails = (types.size() < 3 ? types.size() : 3);
 
 			for (int detailNum = 0; detailNum < numOfDetails; detailNum++) {
-				int randItem = new Random().nextInt(types.size());
-				int i = 0;
 				Integer type = 0;
+				
+				int randItemNum = new Random().nextInt(types.size());
+				int i = 0;
 
 				for (Integer set_type : types) {
-					if (i == randItem) {
+					if (i == randItemNum) {
 						type = set_type;
 						types.remove(set_type);
 					}
@@ -200,15 +136,12 @@ public class PeopleActivity extends Fragment {
 				if (detailNum == 0) {
 					setDetails(type, holder.detail0, holder.detailImage0, user);
 				} else if (detailNum == 1) {
-
 					setDetails(type, holder.detail1, holder.detailImage1, user);
 				} else {
 					setDetails(type, holder.detail2, holder.detailImage2, user);
 				}
 			}
-			**/
-			
-			
+
 			return convertView;
 		}
 
@@ -286,56 +219,151 @@ public class PeopleActivity extends Fragment {
 
 		/** Get Users from DB and parse them to a list **/
 		ArrayList<User> usersList = new ArrayList<User>();
+		// QueryManager qm = new QueryManager();
+		//
+		// if (qm.DB) {
+		// String query = "http://192.185.24.123/~otf/match.php";
+		// String response = qm.sendQueryToDB(query);
+		// usersList = qm.parsePeopleResponse(response);
+		// }
 
 		/** MOCK USERS **/
+		if (true) {// !qm.DB) {
+			User u1 = new User("facebookID", "img_src", "Rony", "Jacobson",
+					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+					"Paris");
+			usersList.add(u1);
 
-		User u1 = new User("facebookID", "img_src", "Rony", "Jacobson",
-				"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-				"Paris");
-		usersList.add(u1);
+			FeedEntry entry1 = new FeedEntry(u1,
+					"This is the content of the status");
+			usersList.add(u1);
 
-		FeedEntry entry1 = new FeedEntry(u1,
-				"This is the content of the status");
-		usersList.add(u1);
-		
-		u1 = new User("facebookID", "img_src", "Alon", "Grinshpoon",
-				"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-				"Paris");
-		usersList.add(u1);
-		
-		u1 = new User("facebookID", "img_src", "Dani", "B", "08/07/89",
-				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-		usersList.add(u1);
-		
-		u1 = new User("facebookID", "img_src", "Idan", "Tsitaiat", "08/07/89",
-				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-		usersList.add(u1);
-		
-		u1 = new User("facebookID", "img_src", "Aviad", "Levi", "08/07/89",
-				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-		usersList.add(u1);
-		
-		u1 = new User("facebookID", "img_src", "Rony", "Jacobson", "08/07/89",
-				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-		usersList.add(u1);
-		
-		u1 = new User("facebookID", "img_src", "Alon", "Grinshpoon",
-				"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-				"Paris");
-		usersList.add(u1);
-		
-		u1 = new User("facebookID", "img_src", "Idan", "Tsitaiat", "08/07/89",
-				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-		usersList.add(u1);
-		
-		u1 = new User("facebookID", "img_src", "Aviad", "Levi", "08/07/89",
-				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-		usersList.add(u1);
-		
-		u1 = new User("facebookID", "img_src", "Rony", "Jacobson", "08/07/89",
-				"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-		usersList.add(u1);
+			u1 = new User("facebookID", "img_src", "Alon", "Grinshpoon",
+					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+					"Paris");
+			usersList.add(u1);
+
+			u1 = new User("facebookID", "img_src", "Dani", "B", "08/07/89",
+					"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
+			usersList.add(u1);
+
+			u1 = new User("facebookID", "img_src", "Idan", "Tsitaiat",
+					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+					"Paris");
+			usersList.add(u1);
+
+			u1 = new User("facebookID", "img_src", "Aviad", "Levi", "08/07/89",
+					"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
+			usersList.add(u1);
+
+			u1 = new User("facebookID", "img_src", "Rony", "Jacobson",
+					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+					"Paris");
+			usersList.add(u1);
+
+			u1 = new User("facebookID", "img_src", "Alon", "Grinshpoon",
+					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+					"Paris");
+			usersList.add(u1);
+
+			u1 = new User("facebookID", "img_src", "Idan", "Tsitaiat",
+					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+					"Paris");
+			usersList.add(u1);
+
+			u1 = new User("facebookID", "img_src", "Aviad", "Levi", "08/07/89",
+					"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
+			usersList.add(u1);
+
+			u1 = new User("facebookID", "img_src", "Rony", "Jacobson",
+					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
+					"Paris");
+			usersList.add(u1);
+		}
 
 		return usersList;
 	}
+
+	public void processFinish(String result) {
+
+		usersList = qm.parsePeopleResponse(result);
+		// ((ProgressBar) findViewById(R.id.progress)).setVisibility(View.GONE);
+
+		/* List View */
+		ListView listView = (ListView) rootView.findViewById(R.id.list_people);
+		UsersListAdapter usersListAdapter = new UsersListAdapter(getActivity(),
+				usersList);
+
+		/*
+		 * Swipe Adapter Wrap list adapter with swipe
+		 */
+		final SwipeActionAdapter swipeAdapter = new SwipeActionAdapter(
+				usersListAdapter);
+		swipeAdapter.setListView(listView);
+
+		/* Set swipe adapter as list adapter */
+		listView.setAdapter(swipeAdapter);
+
+		// Set backgrounds for the swipe directions
+		swipeAdapter
+				.addBackground(SwipeDirections.DIRECTION_FAR_LEFT,
+						R.layout.row_bg_left_far)
+				.addBackground(SwipeDirections.DIRECTION_NORMAL_LEFT,
+						R.layout.row_bg_left)
+				.addBackground(SwipeDirections.DIRECTION_FAR_RIGHT,
+						R.layout.row_bg_right_far)
+				.addBackground(SwipeDirections.DIRECTION_NORMAL_RIGHT,
+						R.layout.row_bg_right);
+
+		// Listen to swipes
+		swipeAdapter.setSwipeActionListener(new SwipeActionListener() {
+			@Override
+			public boolean hasActions(int position) {
+				// All items can be swiped
+				return true;
+			}
+
+			@Override
+			public boolean shouldDismiss(int position, int direction) {
+				// Only dismiss an item when swiping normal left
+				return direction == SwipeDirections.DIRECTION_NORMAL_LEFT;
+			}
+
+			@Override
+			public void onSwipe(int[] positionList, int[] directionList) {
+				for (int i = 0; i < positionList.length; i++) {
+					int direction = directionList[i];
+					int position = positionList[i];
+					String dir = "";
+
+					switch (direction) {
+					case SwipeDirections.DIRECTION_FAR_LEFT:
+						dir = "Far left";
+						break;
+					case SwipeDirections.DIRECTION_NORMAL_LEFT:
+						dir = "Left";
+						break;
+					case SwipeDirections.DIRECTION_FAR_RIGHT:
+						dir = "Far right";
+						break;
+					case SwipeDirections.DIRECTION_NORMAL_RIGHT:
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								getActivity().getApplicationContext());
+						builder.setTitle("Test Dialog")
+								.setMessage("You swiped right").create().show();
+						dir = "Right";
+						break;
+					}
+					Toast.makeText(
+							getActivity().getApplicationContext(),
+							dir + " swipe Action triggered on "
+									+ swipeAdapter.getItem(position),
+							Toast.LENGTH_SHORT).show();
+					swipeAdapter.notifyDataSetChanged();
+				}
+			}
+		});
+
+	}
+
 }
