@@ -15,6 +15,7 @@ import com.wdullaer.swipeactionadapter.SwipeActionAdapter.SwipeActionListener;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -83,6 +84,12 @@ public class ChatActivity extends Fragment {
 				holder.msgImage = (ImageView) convertView
 						.findViewById(R.id.msg_image0);
 
+				// Set Font
+				Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/GOTHIC.TTF"); 
+				holder.name.setTypeface(type);
+				holder.time.setTypeface(type);
+				holder.msgText.setTypeface(type);
+				
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
