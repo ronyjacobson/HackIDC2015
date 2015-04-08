@@ -3,4 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="?android:listPreferredItemHeight"
     android:background="@color/dark_red">
+    
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_gravity="left"
+        android:src="@drawable/ic_poke" 
+        android:layout_marginLeft="20dp"/>
+
 </LinearLayout>

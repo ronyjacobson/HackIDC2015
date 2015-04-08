@@ -107,7 +107,6 @@ public class PeopleActivity extends Fragment {
 				}
 			}
 		});
-
 		return people;
 	}
 
@@ -168,7 +167,7 @@ public class PeopleActivity extends Fragment {
 			}
 
 			User user = usersList.get(position);
-			holder.name.setText(user.getFirstName() + " ," + user.getAge());
+			holder.name.setText(user.getFirstName() + ", " + user.getAge());
 			// holder.userImage.setImageResource(R.drawable.ic_launcher);
 			HashSet<Integer> types = LoginActivity.currentUser
 					.getDetailsTypes();
