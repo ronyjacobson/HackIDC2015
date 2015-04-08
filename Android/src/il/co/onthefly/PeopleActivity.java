@@ -90,7 +90,7 @@ public class PeopleActivity extends Fragment {
 			}
 
 			User user = usersList.get(position);
-			holder.name.setText(user.getFullName() + " ," + user.getAge());
+			holder.name.setText(user.getFirstName() + " ," + user.getAge());
 			// holder.userImage.setImageResource(R.drawable.ic_launcher);
 
 			setDetails(user.getDetailCode(0), holder.detail0,
