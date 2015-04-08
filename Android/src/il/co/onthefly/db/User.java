@@ -1,5 +1,7 @@
 package il.co.onthefly.db;
 
+import java.util.Random;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,6 +13,7 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private String birthday;
+	private String age;
 	private String country;
 	private String email;
 	private String phone;
@@ -48,6 +51,10 @@ public class User {
 
 	public String getId() {
 		return id;
+	}
+	
+	public String getAge() {
+		return age;
 	}
 
 	public String getFirstName() {
@@ -104,6 +111,7 @@ public class User {
 
 	private void setBirthday(String birthday) {
 		this.birthday = birthday;
+		this.age= "25"; //= TODO
 	}
 
 	private void setCountry(String country) {
@@ -233,6 +241,12 @@ public class User {
 		}
 		return null;
 
+	}
+
+	public int getDetailCode(int i) {
+		//TODO
+		Random r = new Random();
+		return r.nextInt(6);
 	}
 
 

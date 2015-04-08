@@ -15,7 +15,7 @@
      distributed under the License is distributed on an "AS IS" BASIS,
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
-     limitations under the License.
+     limitations under the License.
 -->
 
 <resources>
@@ -32,6 +32,7 @@
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Myactionbar</item>
         <item name="android:actionBarTabTextStyle">@style/MyActionBarTabText</item>
         <item name="android:actionMenuTextColor">@color/actionbar_text</item>
+        <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
     </style>
 
     <style name="ActionBar.Solid.Myactionbar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
@@ -83,12 +84,15 @@
     <!-- ActionBar title text -->
     <style name="MyActionBarTitleText" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/actionbar_text</item>
-        
     </style>
 
     <!-- ActionBar tabs text styles -->
     <style name="MyActionBarTabText" parent="@android:style/Widget.Holo.Light.ActionBar.TabText">
         <item name="android:textColor">@color/actionbar_tabs_text</item>
+    </style>
+    <!-- Settings button style -->
+    <style name="MyActionButtonOverflow" parent="android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_settings</item>
     </style>
 
 </resources>

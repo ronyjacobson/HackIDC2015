@@ -1,50 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:weightSum="5">
-
-    <!-- User Photo -->
-
-    <ImageView
-        android:id="@+id/feed_user_img"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:src="@drawable/ic_launcher" />
-
-    <!-- User Details -->
+    android:layout_height="80dp"
+    android:layout_margin="4dp">
 
     <LinearLayout
-        android:id="@+id/left_side_feed_item"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/right_side_feed_item"
-        android:layout_weight="4"
-        android:orientation="vertical" >
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@+id/feed_item_user_img"
+        android:orientation="vertical"
+        android:layout_above="@+id/feed_item_meet_text">
 
-        <!-- Name -->
-
-        <TextView
-            android:id="@+id/feed_user_item_name"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="User Name"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textStyle="bold" />
+            android:layout_gravity="center_vertical" 
+            android:orientation="horizontal">
 
-        <!-- Details -->
+            <TextView
+                android:id="@+id/feed_item_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:gravity="center_vertical"
+                android:text="User"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                 />
+            
+            <TextView
+                android:id="@+id/feed_item_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:gravity="center_vertical"
+                android:text="wants to eat something"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                 />
+
+            <ImageView
+                android:id="@+id/feed_item_status_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:src="@drawable/ic_detail_5" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/feed_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="User details..."
+            android:layout_height="match_parent"
+            android:text="Status..."
             android:textAppearance="?android:attr/textAppearanceSmall" />
-        <!-- Review rank bar -->
-
     </LinearLayout>
 
+    <ImageView
+        android:id="@id/feed_item_user_img"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_weight="1"
+        android:src="@drawable/ic_launcher" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/feed_item_comments_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:text="TextView"
+        android:textColor="#c00000"  />
+
+    <TextView
+        android:id="@id/feed_item_meet_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:background="#c00000" 
+        android:textColor="#FFFFFF" 
+        android:text="TextView" />
+
+</RelativeLayout>

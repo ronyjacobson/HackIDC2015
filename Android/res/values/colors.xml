@@ -14,5 +14,13 @@
     <color name="tab_unselected_pressed">#FFFFFF</color>
     <color name="tab_selected_pressed">#FFFFFF</color>
     <color name="actionbar_tabs_text">#000000</color>
+    
+    <!-- Detail Text -->
+    <color name="blue_text">#2e75b6</color>
+    <color name="yellow_text">#ffc90e</color>
+    <color name="green_text">#b5e61d</color>
+    <color name="lilach_text">#c8bfe7</color>
+    <color name="pink_text">#ffa5d2</color>
+    <color name="light_blue_text">#8ddcf6</color>
 
 </resources>

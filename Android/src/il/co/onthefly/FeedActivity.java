@@ -60,29 +60,38 @@ public class FeedActivity extends Fragment {
 			if (convertView == null) {
 				holder = new ViewHolder();
 
-				convertView = inflater.inflate(R.layout.user_list_item, null);
+				convertView = inflater.inflate(R.layout.feed_entry_list_item, null);
 
-				holder.name = (TextView) convertView
-						.findViewById(R.id.user_item_name);
+				holder.userName = (TextView) convertView
+						.findViewById(R.id.feed_item_user_name);
+				holder.status = (TextView) convertView
+						.findViewById(R.id.feed_item_status);
+				holder.comments = (TextView) convertView
+						.findViewById(R.id.feed_item_comments_text);
+				holder.meetText = (TextView) convertView
+						.findViewById(R.id.feed_item_meet_text);
 				holder.content = (TextView) convertView
-						.findViewById(R.id.user_item_details);
-				holder.img = (ImageView) convertView
-						.findViewById(R.id.user_img);
+						.findViewById(R.id.feed_content);
+				holder.userImage = (ImageView) convertView
+						.findViewById(R.id.feed_item_user_img);
+				holder.statusImage = (ImageView) convertView
+						.findViewById(R.id.feed_item_status_img);
 
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
 
-			holder.name.setText(feedEntrysList.get(position).getUser().getFullName());
+			holder.userName.setText(feedEntrysList.get(position).getUser().getFullName());
+			
 			// holder.details.setText(usersList.get(position).());
 
 			return convertView;
 		}
 
 		class ViewHolder {
-			TextView name, content;
-			ImageView img;
+			TextView userName, content, status, comments, meetText;
+			ImageView userImage, statusImage;
 		}
 	}
 
