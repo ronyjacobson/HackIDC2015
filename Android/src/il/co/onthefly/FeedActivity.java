@@ -33,12 +33,16 @@ public class FeedActivity extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
+		
+		ArrayList<FeedEntry> feedEntrysList = getFeed();
+		
+		
 		View feed = inflater.inflate(R.layout.activity_feed, container, false);
 
 		/* List View */
 		ListView listView = (ListView) feed.findViewById(R.id.list_feed);
-		FeedListAdapter feedListAdapter = new FeedListAdapter(getActivity(),
-				getFeed());
+		FeedListAdapter feedListAdapter = new FeedListAdapter(getActivity(),feedEntrysList);
 		listView.setAdapter(feedListAdapter);
 		
 		/* Add new post*/
@@ -193,6 +197,9 @@ public class FeedActivity extends Fragment {
 
 		/** Get Users from DB and parse them to an array **/
 		ArrayList<FeedEntry> feedEntrysList = new ArrayList<FeedEntry>();
+		
+		
+		
 
 		/** MOCK FEED Entries **/
 		

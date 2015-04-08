@@ -11,8 +11,6 @@ public class FeedEntry {
 	String id;
 	User user;
 	String content;
-	
-	
 	List<String> comments;
 
 	public String getId() {

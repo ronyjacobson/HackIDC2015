@@ -3,7 +3,10 @@ package il.co.onthefly;
 import il.co.onthefly.db.User;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
 import com.wdullaer.swipeactionadapter.SwipeActionAdapter.SwipeActionListener;
@@ -34,69 +37,77 @@ public class PeopleActivity extends Fragment {
 		ListView listView = (ListView) people.findViewById(R.id.list_people);
 		UsersListAdapter usersListAdapter = new UsersListAdapter(getActivity(),
 				getUsers());
-		
-		/* Swipe Adapter 
-		 * Wrap list adapter with swipe 
+
+		/*
+		 * Swipe Adapter Wrap list adapter with swipe
 		 */
-		final SwipeActionAdapter swipeAdapter = new SwipeActionAdapter(usersListAdapter);
+		final SwipeActionAdapter swipeAdapter = new SwipeActionAdapter(
+				usersListAdapter);
 		swipeAdapter.setListView(listView);
-		
+
 		/* Set swipe adapter as list adapter */
 		listView.setAdapter(swipeAdapter);
-		
-	    // Set backgrounds for the swipe directions
-		swipeAdapter.addBackground(SwipeDirections.DIRECTION_FAR_LEFT,R.layout.row_bg_left_far)
-	            .addBackground(SwipeDirections.DIRECTION_NORMAL_LEFT,R.layout.row_bg_left)
-	            .addBackground(SwipeDirections.DIRECTION_FAR_RIGHT,R.layout.row_bg_right_far)
-	            .addBackground(SwipeDirections.DIRECTION_NORMAL_RIGHT,R.layout.row_bg_right);
+
+		// Set backgrounds for the swipe directions
+		swipeAdapter
+				.addBackground(SwipeDirections.DIRECTION_FAR_LEFT,
+						R.layout.row_bg_left_far)
+				.addBackground(SwipeDirections.DIRECTION_NORMAL_LEFT,
+						R.layout.row_bg_left)
+				.addBackground(SwipeDirections.DIRECTION_FAR_RIGHT,
+						R.layout.row_bg_right_far)
+				.addBackground(SwipeDirections.DIRECTION_NORMAL_RIGHT,
+						R.layout.row_bg_right);
 
 		// Listen to swipes
-		swipeAdapter.setSwipeActionListener(new SwipeActionListener(){
-	        @Override
-	        public boolean hasActions(int position){
-	            // All items can be swiped
-	            return true;
-	        }
+		swipeAdapter.setSwipeActionListener(new SwipeActionListener() {
+			@Override
+			public boolean hasActions(int position) {
+				// All items can be swiped
+				return true;
+			}
 
-	        @Override
-	        public boolean shouldDismiss(int position, int direction){
-	            // Only dismiss an item when swiping normal left
-	            return direction == SwipeDirections.DIRECTION_NORMAL_LEFT;
-	        }
+			@Override
+			public boolean shouldDismiss(int position, int direction) {
+				// Only dismiss an item when swiping normal left
+				return direction == SwipeDirections.DIRECTION_NORMAL_LEFT;
+			}
 
-	        @Override
-	        public void onSwipe(int[] positionList, int[] directionList){
-	            for(int i=0;i<positionList.length;i++) {
-	                int direction = directionList[i];
-	                int position = positionList[i];
-	                String dir = "";
+			@Override
+			public void onSwipe(int[] positionList, int[] directionList) {
+				for (int i = 0; i < positionList.length; i++) {
+					int direction = directionList[i];
+					int position = positionList[i];
+					String dir = "";
 
-	                switch (direction) {
-	                    case SwipeDirections.DIRECTION_FAR_LEFT:
-	                        dir = "Far left";
-	                        break;
-	                    case SwipeDirections.DIRECTION_NORMAL_LEFT:
-	                        dir = "Left";
-	                        break;
-	                    case SwipeDirections.DIRECTION_FAR_RIGHT:
-	                        dir = "Far right";
-	                        break;
-	                    case SwipeDirections.DIRECTION_NORMAL_RIGHT:
-	                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity().getApplicationContext());
-	                        builder.setTitle("Test Dialog").setMessage("You swiped right").create().show();
-	                        dir = "Right";
-	                        break;
-	                }
-	                Toast.makeText(
-	                		getActivity().getApplicationContext(),
-	                        dir + " swipe Action triggered on " + swipeAdapter.getItem(position),
-	                        Toast.LENGTH_SHORT
-	                ).show();
-	                swipeAdapter.notifyDataSetChanged();
-	            }
-	        }
-	    });
-	    
+					switch (direction) {
+					case SwipeDirections.DIRECTION_FAR_LEFT:
+						dir = "Far left";
+						break;
+					case SwipeDirections.DIRECTION_NORMAL_LEFT:
+						dir = "Left";
+						break;
+					case SwipeDirections.DIRECTION_FAR_RIGHT:
+						dir = "Far right";
+						break;
+					case SwipeDirections.DIRECTION_NORMAL_RIGHT:
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								getActivity().getApplicationContext());
+						builder.setTitle("Test Dialog")
+								.setMessage("You swiped right").create().show();
+						dir = "Right";
+						break;
+					}
+					Toast.makeText(
+							getActivity().getApplicationContext(),
+							dir + " swipe Action triggered on "
+									+ swipeAdapter.getItem(position),
+							Toast.LENGTH_SHORT).show();
+					swipeAdapter.notifyDataSetChanged();
+				}
+			}
+		});
+
 		return people;
 	}
 
@@ -159,50 +170,86 @@ public class PeopleActivity extends Fragment {
 			User user = usersList.get(position);
 			holder.name.setText(user.getFirstName() + " ," + user.getAge());
 			// holder.userImage.setImageResource(R.drawable.ic_launcher);
+			HashSet<Integer> types = LoginActivity.currentUser
+					.getDetailsTypes();
 
-			setDetails(user.getDetailCode(0), holder.detail0,
-					holder.detailImage0, user);
-			setDetails(user.getDetailCode(1), holder.detail1,
-					holder.detailImage1, user);
-			setDetails(user.getDetailCode(2), holder.detail2,
-					holder.detailImage2, user);
+			int numOfDetails = (types.size() < 3 ? types.size() : 3);
 
+			for (int detailNum = 0; detailNum < numOfDetails; detailNum++) {
+				int randItem = new Random().nextInt(types.size());
+				int i = 0;
+				Integer type=0;
+
+				for (Integer set_type : types) {
+					if (i == randItem) {
+						type = set_type;
+						types.remove(set_type);
+					}
+					i = i + 1;
+				}
+				if (detailNum == 0) {
+					setDetails(type, holder.detail0, holder.detailImage0, user);
+				} else if (detailNum == 1) {
+
+					setDetails(type, holder.detail1, holder.detailImage1, user);
+				} else {
+					setDetails(type, holder.detail2, holder.detailImage2, user);
+				}
+			}
 			return convertView;
 		}
 
-		private void setDetails(int i, TextView detail, ImageView detailImage, User  user) {
+		private void setDetails(int i, TextView detail, ImageView detailImage,
+				User user) {
+			detail.setVisibility(View.VISIBLE);
+			detailImage.setVisibility(View.VISIBLE);
+
 			switch (i) {
-			case 0:	//same destination
+			case 0: // same destination
 				detail.setText("Flying your way!");
 				detail.setTextColor(getResources().getColor(R.color.blue_text));
-				detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_detail_0));
+				detailImage.setImageDrawable(getResources().getDrawable(
+						R.drawable.ic_detail_0));
 				break;
-			case 1:	//same age
+			case 1: // same age
 				detail.setText("Here with kids!");
 				detail.setTextColor(getResources().getColor(R.color.green_text));
-				detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_detail_1));
+				detailImage.setImageDrawable(getResources().getDrawable(
+						R.drawable.ic_detail_1));
 				break;
-			case 2: //same country
-				detail.setText("Also lives in "+user.getCountry()+"!");
-				detail.setTextColor(getResources().getColor(R.color.yellow_text));
-				detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_detail_2));
+			case 2: // same country
+				detail.setText("Also lives in " + user.getCountry() + "!");
+				detail.setTextColor(getResources()
+						.getColor(R.color.yellow_text));
+				detailImage.setImageDrawable(getResources().getDrawable(
+						R.drawable.ic_detail_2));
 				break;
-			case 3: //here with kids
+			case 3: // here with kids
 				detail.setText("Same age as you!");
-				detail.setTextColor(getResources().getColor(R.color.light_blue_text));
-				detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_detail_3));
+				detail.setTextColor(getResources().getColor(
+						R.color.light_blue_text));
+				detailImage.setImageDrawable(getResources().getDrawable(
+						R.drawable.ic_detail_3));
 				break;
-			case 4: //same degree
-				detail.setText("Studies "+user.getDegree()+".");
-				detail.setTextColor(getResources().getColor(R.color.lilach_text));
-				detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_detail_4));
+			case 4: // same degree
+				detail.setText("Studies " + user.getDegree() + ".");
+				detail.setTextColor(getResources()
+						.getColor(R.color.lilach_text));
+				detailImage.setImageDrawable(getResources().getDrawable(
+						R.drawable.ic_detail_4));
 				break;
-			case 5: //workplace
-				detail.setText("Works at "+user.getWork()+".");
+			case 5: // workplace
+				detail.setText("Works at " + user.getWork() + ".");
 				detail.setTextColor(getResources().getColor(R.color.pink_text));
-				detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_detail_5));
+				detailImage.setImageDrawable(getResources().getDrawable(
+						R.drawable.ic_detail_5));
 				break;
-			case 6: 
+			case 6: // has a connection in TODO-Add COLOR,IC
+				detail.setText("Will be in " + user.getConnectionAirport()
+						+ " too!");
+				detail.setTextColor(getResources().getColor(R.color.blue_text));
+				detailImage.setImageDrawable(getResources().getDrawable(
+						R.drawable.ic_detail_0));
 				break;
 			case 7:
 				break;

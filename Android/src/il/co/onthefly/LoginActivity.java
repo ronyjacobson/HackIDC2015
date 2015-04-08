@@ -1,5 +1,7 @@
 package il.co.onthefly;
 
+import il.co.onthefly.db.User;
+
 import java.util.Arrays;
 import java.util.List;
 import android.content.Intent;
@@ -25,6 +27,7 @@ public class LoginActivity extends FragmentActivity {
 	private RelativeLayout loginButtonGooglePlus;
 	private RelativeLayout loginButtonTwitter;
 	private RelativeLayout loginButtonLinkedIn;
+	public static User currentUser;
 
 	private UiLifecycleHelper uiHelper;
 
