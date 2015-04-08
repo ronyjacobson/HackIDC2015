@@ -7,6 +7,7 @@ import java.util.Random;
 public class FeedEntry {
 
 	static int GlobalID=0;
+	static int entryTypeCode = -1;
 	
 	String id;
 	User user;
@@ -64,7 +65,8 @@ public class FeedEntry {
 	}
 
 	public int getEntryTypeCode() {
-		return GlobalID % 7;
+		entryTypeCode++;
+		return entryTypeCode % 7;
 	}
 	
 	//TODO: toString(User user), Parse(String)...

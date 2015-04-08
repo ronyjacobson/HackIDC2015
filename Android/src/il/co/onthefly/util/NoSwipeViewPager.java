@@ -1,4 +1,4 @@
-package il.co.onthefly.utils;
+package il.co.onthefly.util;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

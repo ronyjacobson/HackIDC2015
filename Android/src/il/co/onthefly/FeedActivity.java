@@ -66,16 +66,14 @@ public class FeedActivity extends Fragment {
 						.findViewById(R.id.feed_item_user_name);
 				holder.status = (TextView) convertView
 						.findViewById(R.id.feed_item_status);
+				holder.statusImage = (ImageView) convertView
+						.findViewById(R.id.feed_item_status_img);
 				holder.comments = (TextView) convertView
 						.findViewById(R.id.feed_item_comments_text);
 				holder.meetText = (TextView) convertView
 						.findViewById(R.id.feed_item_meet_text);
-				holder.content = (TextView) convertView
-						.findViewById(R.id.feed_content);
-				holder.userImage = (ImageView) convertView
-						.findViewById(R.id.feed_item_user_img);
-				holder.statusImage = (ImageView) convertView
-						.findViewById(R.id.feed_item_status_img);
+				//holder.content = (TextView) convertView.findViewById(R.id.feed_content);
+				//holder.userImage = (ImageView) convertView.findViewById(R.id.feed_item_user_img);
 
 				convertView.setTag(holder);
 			} else {
@@ -85,11 +83,9 @@ public class FeedActivity extends Fragment {
 			FeedEntry feedEntry = feedEntrysList.get(position);
 			holder.userName.setText(feedEntry.getUser().getFirstName());
 			//holder.userImage.setBackground(@drawble/ic)
-			setContentValues(feedEntry.getEntryTypeCode(), holder.status,
+			int index = feedEntry.getEntryTypeCode();
+			setContentValues(index, holder.status, holder.content, holder.meetText, holder.comments,
 					holder.statusImage, feedEntry.getUser());
-			setContentValues(feedEntry.getEntryTypeCode(), holder.content, null, feedEntry.getUser());
-			setContentValues(feedEntry.getEntryTypeCode(), holder.meetText, null, feedEntry.getUser());
-			setContentValues(feedEntry.getEntryTypeCode(), holder.comments, null, feedEntry.getUser());
 			
 			// holder.details.setText(usersList.get(position).());
 
@@ -98,12 +94,12 @@ public class FeedActivity extends Fragment {
 
 		
 		class ViewHolder {
-			TextView userName, content, status, comments, meetText;
+			TextView userName, status, content, comments, meetText;
 			ImageView userImage, statusImage;
 		}
 	}
 	
-	private void setContentValues(int i, TextView detail, ImageView detailImage, User  user) {
+	private void setContentValues(int i, TextView detail, TextView content, TextView meetText, TextView comments, ImageView detailImage, User  user) {
 		switch (i) {
 		case 0:	// Pass Time
 			detail.setText("is looking to pass time");
