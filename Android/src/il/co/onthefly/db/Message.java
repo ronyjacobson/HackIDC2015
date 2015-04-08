@@ -7,10 +7,10 @@ public class Message {
 	private String userImage;
 	private boolean sentMessage;
 	private String text;
-	private int time;
+	private String time;
 
 	public Message(User user, String userImage, boolean sentMessage,
-			String text, int time) {
+			String text, String time) {
 		this.user = user;
 		this.userImage = userImage;
 		this.sentMessage = sentMessage;
@@ -50,11 +50,11 @@ public class Message {
 		this.text = text;
 	}
 
-	public int getTime() {
+	public String getTime() {
 		return time;
 	}
 
-	public void setTime(int time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 }

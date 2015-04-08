@@ -1,5 +1,6 @@
 package il.co.onthefly;
 
+import il.co.onthefly.db.Message;
 import il.co.onthefly.db.User;
 
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
+import com.google.android.gms.internal.me;
 import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
 import com.wdullaer.swipeactionadapter.SwipeDirections;
 import com.wdullaer.swipeactionadapter.SwipeActionAdapter.SwipeActionListener;
@@ -33,30 +35,30 @@ public class ChatActivity extends Fragment {
 
 		/* List View */
 		ListView listView = (ListView) chat.findViewById(R.id.list_chat);
-		UsersListAdapter usersListAdapter = new UsersListAdapter(getActivity(),
-				getUsers());
+		MessagesListAdapter usersListAdapter = new MessagesListAdapter(getActivity(),
+				getMessages());
 		listView.setAdapter(usersListAdapter);
 		
 		return chat;
 	}
 
-	private class UsersListAdapter extends BaseAdapter {
-		private List<User> usersList;
+	private class MessagesListAdapter extends BaseAdapter {
+		private List<Message> messageList;
 		private LayoutInflater inflater;
 
-		public UsersListAdapter(Context context, List<User> usersList) {
-			this.usersList = usersList;
+		public MessagesListAdapter(Context context, List<Message> messageList) {
+			this.messageList = messageList;
 			this.inflater = LayoutInflater.from(context);
 		}
 
 		@Override
 		public int getCount() {
-			return usersList.size();
+			return messageList.size();
 		}
 
 		@Override
 		public Object getItem(int i) {
-			return usersList.get(i);
+			return messageList.get(i);
 		}
 
 		@Override
@@ -86,92 +88,29 @@ public class ChatActivity extends Fragment {
 				holder = (ViewHolder) convertView.getTag();
 			}
 
-			User user = usersList.get(position);
-			holder.name.setText(user.getFirstName());
-			// holder.userImage.setImageResource(R.drawable.ic_launcher);
-			HashSet<Integer> types = LoginActivity.currentUser
-					.getDetailsTypes();
+			Message message = messageList.get(position);
+			holder.name.setText(message.getUser().getFirstName());
 
-			int numOfDetails = (types.size() < 3 ? types.size() : 3);
+			setMessage(holder.msgText, holder.msgImage, holder.time, message);
 
-			for (int detailNum = 0; detailNum < numOfDetails; detailNum++) {
-				int randItem = new Random().nextInt(types.size());
-				int i = 0;
-				Integer type = 0;
-
-				for (Integer set_type : types) {
-					if (i == randItem) {
-						type = set_type;
-						types.remove(set_type);
-					}
-					i = i + 1;
-				}
-				
-				setDetails(type, holder.msgText, holder.msgImage, user);
-
-			}
 			return convertView;
 		}
 
-		private void setDetails(int i, TextView detail, ImageView detailImage,
-				User user) {
-			detail.setVisibility(View.VISIBLE);
-			detailImage.setVisibility(View.VISIBLE);
+		private void setMessage(TextView msgText, ImageView msgImage, TextView time,
+				Message message) {
+			msgText.setVisibility(View.VISIBLE);
+			msgImage.setVisibility(View.VISIBLE);
 
-			switch (i) {
-			case 0: // same destination
-				detail.setText("Flying your way!");
-				detail.setTextColor(getResources().getColor(R.color.blue_text));
-				detailImage.setImageDrawable(getResources().getDrawable(
-						R.drawable.ic_detail_0));
-				break;
-			case 1: // same age
-				detail.setText("Here with kids!");
-				detail.setTextColor(getResources().getColor(R.color.green_text));
-				detailImage.setImageDrawable(getResources().getDrawable(
-						R.drawable.ic_detail_1));
-				break;
-			case 2: // same country
-				detail.setText("Also lives in " + user.getCountry() + "!");
-				detail.setTextColor(getResources()
-						.getColor(R.color.yellow_text));
-				detailImage.setImageDrawable(getResources().getDrawable(
-						R.drawable.ic_detail_2));
-				break;
-			case 3: // here with kids
-				detail.setText("Same age as you!");
-				detail.setTextColor(getResources().getColor(
-						R.color.light_blue_text));
-				detailImage.setImageDrawable(getResources().getDrawable(
-						R.drawable.ic_detail_3));
-				break;
-			case 4: // same degree
-				detail.setText("Studies " + user.getDegree() + ".");
-				detail.setTextColor(getResources()
-						.getColor(R.color.lilach_text));
-				detailImage.setImageDrawable(getResources().getDrawable(
-						R.drawable.ic_detail_4));
-				break;
-			case 5: // workplace
-				detail.setText("Works at " + user.getWork() + ".");
-				detail.setTextColor(getResources().getColor(R.color.pink_text));
-				detailImage.setImageDrawable(getResources().getDrawable(
-						R.drawable.ic_detail_5));
-				break;
-			case 6: // has a connection in TODO-Add COLOR,IC
-				detail.setText("Will be in " + user.getConnectionAirport()
-						+ " too!");
-				detail.setTextColor(getResources().getColor(R.color.blue_text));
-				detailImage.setImageDrawable(getResources().getDrawable(
-						R.drawable.ic_detail_0));
-				break;
-			case 7:
-				break;
-			case 8:
-				break;
-			case 9:
-				break;
+			if (!message.isSentMessage()){
+				msgImage.setImageDrawable(getResources().getDrawable(
+						R.drawable.ic_arrow_received));
+			} else {
+				msgImage.setImageDrawable(getResources().getDrawable(
+						R.drawable.ic_sent));
 			}
+			
+			msgText.setText(message.getText());
+			time.setText(message.getTime());
 		}
 
 		class ViewHolder {
@@ -183,38 +122,29 @@ public class ChatActivity extends Fragment {
 		}
 	}
 
-	public List<User> getUsers() {
+	public List<Message> getMessages() {
 
-		/** Get Users from DB and parse them to a list **/
-		ArrayList<User> usersList = new ArrayList<User>();
+		/** Get Messages from DB and parse them to a list **/
+		List<Message> messagesList = new ArrayList<Message>();
+		List<User> usersList = new ArrayList<User>();
 
 		/** MOCK USERS **/
 
-		User u1 = new User("Rony", "Jacobson");
+		User u1 = new User("Tomer", "Tomer");
 		usersList.add(u1);
-		u1 = new User("Alon", "Grinshpoon");
+		u1 = new User("Matan", "Matan");
 		usersList.add(u1);
-		u1 = new User("Idan", "Tsitaiat");
-		usersList.add(u1);
-		u1 = new User("Aviad", "Levi");
-		usersList.add(u1);
-		u1 = new User("Rony", "Jacobson");
-		usersList.add(u1);
-		u1 = new User("Alon", "Grinshpoon");
-		usersList.add(u1);
-		u1 = new User("Idan", "Tsitaiat");
-		usersList.add(u1);
-		u1 = new User("Aviad", "Levi");
-		usersList.add(u1);
-		u1 = new User("Rony", "Jacobson");
-		usersList.add(u1);
-		u1 = new User("Alon", "Grinshpoon");
-		usersList.add(u1);
-		u1 = new User("Idan", "Tsitaiat");
-		usersList.add(u1);
-		u1 = new User("Aviad", "Levi");
+		u1 = new User("Emily", "Emily");
 		usersList.add(u1);
 
-		return usersList;
+		/** MOCK MESSAGES **/
+		Message m1 = new Message(usersList.get(0), null, false, "Great! :) See you there!", "seen 10 minutes ago");
+		messagesList.add(m1);
+		m1 = new Message(usersList.get(1), null, true, "Hey dude!", "seen 1 hour ago");
+		messagesList.add(m1);
+		m1 = new Message(usersList.get(2), null, true, "I’ll will be at FCO at 11am.", "seen 1 hour and 20 minuts ago");
+		messagesList.add(m1);
+		
+		return messagesList;
 	}
 }
