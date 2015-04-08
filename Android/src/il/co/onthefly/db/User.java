@@ -214,7 +214,7 @@ public class User {
 
 	}
 	
-	public User(String facebookID, String userImage, String id,
+	public User(String facebookID, String userImage,
 			String firstName, String lastName, String birthday,
 			String country, String email, String school, String degree,
 			String work, String flightNum, String fromAirport,
@@ -222,7 +222,6 @@ public class User {
 		super();
 		this.facebookID = facebookID;
 		this.userImage = userImage;
-		this.id = facebookID;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthday = birthday;

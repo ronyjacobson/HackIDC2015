@@ -48,6 +48,8 @@ public class LoginActivity extends FragmentActivity {
 			public void onUserInfoFetched(GraphUser user) {
 				if (user != null) {
 					// Logged In
+					// Store User
+					currentUser = new User(user.getId(), user.getLink(), user.getFirstName(), user.getLastName(), user.getBirthday(), user.getLocation().getName(), user.getUsername() + "@gmail.com", "Tel Aviv University", "MSc Computer Science", "Amadues", "AZ815", "TLV", "JFK");
 					// Show toast
                 	Toast.makeText(getApplicationContext(), "Welcome " + user.getFirstName() +"!",
               			   Toast.LENGTH_SHORT).show();
