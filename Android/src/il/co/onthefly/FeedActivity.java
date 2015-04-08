@@ -6,6 +6,11 @@ import il.co.onthefly.db.User;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
+import com.wdullaer.swipeactionadapter.SwipeDirections;
+import com.wdullaer.swipeactionadapter.SwipeActionAdapter.SwipeActionListener;
+
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.DropBoxManager.Entry;
@@ -18,6 +23,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FeedActivity extends Fragment {
 
@@ -39,7 +45,69 @@ public class FeedActivity extends Fragment {
 		ListView listView = (ListView) feed.findViewById(R.id.list_feed);
 		FeedListAdapter feedListAdapter = new FeedListAdapter(getActivity(),
 				getFeed());
-		listView.setAdapter(feedListAdapter);
+		
+		/* Swipe Adapter 
+		 * Wrap list adapter with swipe 
+		 */
+		final SwipeActionAdapter swipeAdapter = new SwipeActionAdapter(feedListAdapter);
+		swipeAdapter.setListView(listView);
+		
+		/* Set swipe adapter as list adapter */
+		listView.setAdapter(swipeAdapter);
+		
+		// Set backgrounds for the swipe directions
+				swipeAdapter
+			            .addBackground(SwipeDirections.DIRECTION_FAR_RIGHT,R.layout.row_bg_right_far)
+			            .addBackground(SwipeDirections.DIRECTION_NORMAL_RIGHT,R.layout.row_bg_right);
+
+				// Listen to swipes
+				swipeAdapter.setSwipeActionListener(new SwipeActionListener(){
+			        @Override
+			        public boolean hasActions(int position){
+			            // All items can be swiped
+			            return true;
+			        }
+
+			        @Override
+			        public boolean shouldDismiss(int position, int direction){
+			            // Only dismiss an item when swiping normal left
+			            return true;
+			        }
+
+			        @Override
+			        public void onSwipe(int[] positionList, int[] directionList){
+			            for(int i=0;i<positionList.length;i++) {
+			                int direction = directionList[i];
+			                int position = positionList[i];
+			                String dir = "";
+
+			                switch (direction) {
+			                    case SwipeDirections.DIRECTION_FAR_LEFT:
+			                        dir = "Far left";
+			                        break;
+			                    case SwipeDirections.DIRECTION_NORMAL_LEFT:
+			                        dir = "Left";
+			                        break;
+			                    case SwipeDirections.DIRECTION_FAR_RIGHT:
+			                        dir = "Far right";
+			                        break;
+			                    case SwipeDirections.DIRECTION_NORMAL_RIGHT:
+			                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity().getApplicationContext());
+			                        builder.setTitle("Test Dialog").setMessage("You swiped right").create().show();
+			                        dir = "Right";
+			                        break;
+			                }
+			                if (dir.equals("Far left") || dir.equals("Left")){
+			                	// Poke Disabled
+			                } else {
+			                	// Move to chat
+			                	MainActivity.Tab.setCurrentItem(2, true);
+			                }
+			                
+			                swipeAdapter.notifyDataSetChanged();
+			            }
+			        }
+			    });
 		
 		/* Add new post*/
 		ImageView addBtn= (ImageView) feed.findViewById(R.id.feed_fab);
