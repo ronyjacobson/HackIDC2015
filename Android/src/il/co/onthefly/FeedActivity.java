@@ -64,8 +64,7 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 
 		/* List View */
 		ListView listView = (ListView) rootView.findViewById(R.id.list_feed);
-		FeedListAdapter feedListAdapter = new FeedListAdapter(getActivity(),
-				feedEntrysList);
+		FeedListAdapter feedListAdapter = new FeedListAdapter(getActivity(),feedEntrysList);
 
 		/*
 		 * Swipe Adapter Wrap list adapter with swipe
@@ -166,7 +165,7 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 		public FeedListAdapter(Context context,
 				ArrayList<FeedEntry> feedEntrysList) {
 			this.feedEntrysList = feedEntrysList;
-			this.inflater = LayoutInflater.from(context);
+			this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 
 		@Override
