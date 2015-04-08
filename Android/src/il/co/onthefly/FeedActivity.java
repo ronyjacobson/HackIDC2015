@@ -95,10 +95,6 @@ public class FeedActivity extends Fragment {
 						dir = "Far right";
 						break;
 					case SwipeDirections.DIRECTION_NORMAL_RIGHT:
-						AlertDialog.Builder builder = new AlertDialog.Builder(
-								getActivity().getApplicationContext());
-						builder.setTitle("Test Dialog")
-								.setMessage("You swiped right").create().show();
 						dir = "Right";
 						break;
 					}

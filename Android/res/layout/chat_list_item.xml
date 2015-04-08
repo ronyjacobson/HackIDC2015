@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_weight="1.97"
+    android:background="#FFFFFF"
+    android:paddingBottom="4dp" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/user_img"
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:layout_weight="0.63"
+            android:src="@drawable/ic_user" />
+
+        <LinearLayout
+            android:id="@+id/left_side_user_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/user_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dp"
+                android:text="Name"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="2" >
+
+                <ImageView
+                    android:id="@+id/msg_image0"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_column="0"
+                    android:layout_gravity="center"
+                    android:layout_row="0"
+                    android:paddingLeft="3dp"
+                    android:src="@drawable/ic_arrow_received"/>
+
+                <TextView
+                    android:id="@+id/msg_text0"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_gravity="left|center_vertical"
+                    android:layout_row="0"
+                    android:paddingLeft="4dp"
+                    android:text="Great! :) See you there!" />
+            </GridLayout>
+
+            <TextView
+                android:id="@+id/user_item_time"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="right"
+                android:paddingRight="3dp"
+                android:paddingTop="20dp"
+                android:text="seen 1 hour ago"
+                android:textColor="#c00000" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

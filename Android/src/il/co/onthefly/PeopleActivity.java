@@ -92,18 +92,21 @@ public class PeopleActivity extends Fragment {
 						dir = "Far right";
 						break;
 					case SwipeDirections.DIRECTION_NORMAL_RIGHT:
-						AlertDialog.Builder builder = new AlertDialog.Builder(
-								getActivity().getApplicationContext());
-						builder.setTitle("Test Dialog")
-								.setMessage("You swiped right").create().show();
 						dir = "Right";
 						break;
 					}
-					Toast.makeText(
-							getActivity().getApplicationContext(),
-							dir + " swipe Action triggered on "
-									+ swipeAdapter.getItem(position),
-							Toast.LENGTH_SHORT).show();
+					if (dir.equals("Far left") || dir.equals("Left")) {
+						// Poke
+						Toast.makeText(
+								getActivity().getApplicationContext(),
+								"You poked "
+										+ ((User)swipeAdapter.getItem(position)).getFirstName() + "!",
+								Toast.LENGTH_SHORT).show();
+					} else {
+						// Move to chat
+						MainActivity.Tab.setCurrentItem(2, true);
+					}
+					
 					swipeAdapter.notifyDataSetChanged();
 				}
 			}
