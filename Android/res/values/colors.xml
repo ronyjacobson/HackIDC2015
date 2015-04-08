@@ -23,5 +23,6 @@
     <color name="pink_text">#ffa5d2</color>
     <color name="light_blue_text">#8ddcf6</color>
     <color name="black_overlay">#66000000</color>
+    <color name="dark_red">#c20000</color>
 
 </resources>
