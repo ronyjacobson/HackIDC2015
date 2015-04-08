@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -29,11 +32,11 @@ import com.wdullaer.swipeactionadapter.SwipeDirections;
 public class FeedActivity extends Fragment implements AsyncResponse {
 
 	String[] meetText = new String[] { "You should meet!", "This sounds fun!",
-			"Why not join?" };
+			"Why not join?", "Great option!", "", "", "", "" };
 
 	public String getMeetText() {
 		Random r = new Random();
-		int i = r.nextInt(3);
+		int i = r.nextInt(meetText.length);
 		return meetText[i];
 	}
 
@@ -111,10 +114,6 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 						dir = "Far right";
 						break;
 					case SwipeDirections.DIRECTION_NORMAL_RIGHT:
-						AlertDialog.Builder builder = new AlertDialog.Builder(
-								getActivity().getApplicationContext());
-						builder.setTitle("Test Dialog")
-								.setMessage("You swiped right").create().show();
 						dir = "Right";
 						break;
 					}
@@ -136,8 +135,24 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 
 			@Override
 			public void onClick(View v) {
-				// TODO
-
+				final Dialog dialog = new Dialog(getActivity().getApplicationContext());
+				dialog.setContentView(R.layout.activity_add_post);
+				dialog.setTitle("Title...");
+	 
+				// set the custom dialog components - text, image and button
+				TextView text = (TextView) dialog.findViewById(R.id.text);
+				text.setText("Android custom dialog example!");
+	 
+				Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+				// if button is clicked, close the custom dialog
+				dialogButton.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						dialog.dismiss();
+					}
+				});
+	 
+				dialog.show();
 			}
 		});
 
@@ -191,6 +206,14 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 				holder.userImage = (ImageView) convertView
 						.findViewById(R.id.feed_item_user_img);
 
+				// Set Font
+				Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/GOTHIC.TTF"); 
+				holder.userName.setTypeface(type);
+				holder.status.setTypeface(type);
+				holder.comments.setTypeface(type);
+				holder.meetText.setTypeface(type);
+				holder.content.setTypeface(type);
+				
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();

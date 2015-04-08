@@ -5,6 +5,7 @@ import il.co.onthefly.db.User;
 import java.util.Arrays;
 import java.util.List;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.Session;
@@ -23,6 +25,7 @@ import com.facebook.widget.LoginButton.UserInfoChangedCallback;
 
 public class LoginActivity extends FragmentActivity {
 
+	private TextView text;
 	private LoginButton loginBtn;
 	private RelativeLayout loginButtonGooglePlus;
 	private RelativeLayout loginButtonTwitter;
@@ -42,6 +45,10 @@ public class LoginActivity extends FragmentActivity {
 
 		setContentView(R.layout.activity_login);
 
+		text = (TextView) findViewById(R.id.text);
+		Typeface type = Typeface.createFromAsset(getAssets(),"fonts/GOTHIC.TTF"); 
+		text.setTypeface(type);
+		
 		loginBtn = (LoginButton) findViewById(R.id.button_login_facebook);
 		loginBtn.setUserInfoChangedCallback(new UserInfoChangedCallback() {
 			@Override

@@ -12,6 +12,7 @@ import java.util.Random;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -96,6 +97,14 @@ public class PeopleActivity extends Fragment implements AsyncResponse {
 				holder.detailImage2 = (ImageView) convertView
 						.findViewById(R.id.detail_image2);
 
+				// Set Font
+				Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/GOTHIC.TTF"); 
+				holder.name.setTypeface(type);
+				holder.detail0.setTypeface(type);
+				holder.detail1.setTypeface(type);
+				holder.detail2.setTypeface(type);
+				holder.timeLeft.setTypeface(type);
+				
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
