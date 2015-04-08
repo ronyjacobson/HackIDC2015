@@ -164,12 +164,28 @@ public class PeopleActivity extends Fragment {
 
 		User u1 = new User("Rony", "Jacobson");
 		usersList.add(u1);
-		User u2 = new User("Alon", "Grinshpoon");
-		usersList.add(u2);
-		User u3 = new User("Idan", "Tsitaiat");
-		usersList.add(u3);
-		User u4 = new User("Aviad", "Levi");
-		usersList.add(u4);
+		u1 = new User("Alon", "Grinshpoon");
+		usersList.add(u1);
+		u1 = new User("Idan", "Tsitaiat");
+		usersList.add(u1);
+		u1 = new User("Aviad", "Levi");
+		usersList.add(u1);
+		u1 = new User("Rony", "Jacobson");
+		usersList.add(u1);
+		u1 = new User("Alon", "Grinshpoon");
+		usersList.add(u1);
+		u1 = new User("Idan", "Tsitaiat");
+		usersList.add(u1);
+		u1 = new User("Aviad", "Levi");
+		usersList.add(u1);
+		u1 = new User("Rony", "Jacobson");
+		usersList.add(u1);
+		u1 = new User("Alon", "Grinshpoon");
+		usersList.add(u1);
+		u1 = new User("Idan", "Tsitaiat");
+		usersList.add(u1);
+		u1 = new User("Aviad", "Levi");
+		usersList.add(u1);
 
 		return usersList;
 	}

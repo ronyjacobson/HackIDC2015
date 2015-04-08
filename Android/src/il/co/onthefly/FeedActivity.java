@@ -4,9 +4,11 @@ import il.co.onthefly.db.FeedEntry;
 import il.co.onthefly.db.User;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.DropBoxManager.Entry;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class FeedActivity extends Fragment {
+
+	String[] meetText = new String[] { "You should meet!", "This sounds fun!",
+			"You should join!" };
+
+	public String getMeetText() {
+		Random r = new Random();
+		int i = r.nextInt(3);
+		return meetText[i];
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -24,18 +36,19 @@ public class FeedActivity extends Fragment {
 
 		/* List View */
 		ListView listView = (ListView) feed.findViewById(R.id.list_feed);
-		FeedListAdapter feedListAdapter = new FeedListAdapter(getActivity(),getFeed());
+		FeedListAdapter feedListAdapter = new FeedListAdapter(getActivity(),
+				getFeed());
 		listView.setAdapter(feedListAdapter);
-		
+
 		return feed;
 	}
 
-	
 	private class FeedListAdapter extends BaseAdapter {
 		private ArrayList<FeedEntry> feedEntrysList;
 		private LayoutInflater inflater;
 
-		public FeedListAdapter(Context context, ArrayList<FeedEntry> feedEntrysList) {
+		public FeedListAdapter(Context context,
+				ArrayList<FeedEntry> feedEntrysList) {
 			this.feedEntrysList = feedEntrysList;
 			this.inflater = LayoutInflater.from(context);
 		}
@@ -60,7 +73,8 @@ public class FeedActivity extends Fragment {
 			if (convertView == null) {
 				holder = new ViewHolder();
 
-				convertView = inflater.inflate(R.layout.feed_entry_list_item, null);
+				convertView = inflater.inflate(R.layout.feed_entry_list_item,
+						null);
 
 				holder.userName = (TextView) convertView
 						.findViewById(R.id.feed_item_user_name);
@@ -72,8 +86,10 @@ public class FeedActivity extends Fragment {
 						.findViewById(R.id.feed_item_comments_text);
 				holder.meetText = (TextView) convertView
 						.findViewById(R.id.feed_item_meet_text);
-				//holder.content = (TextView) convertView.findViewById(R.id.feed_content);
-				//holder.userImage = (ImageView) convertView.findViewById(R.id.feed_item_user_img);
+				holder.content = (TextView) convertView
+						.findViewById(R.id.feed_item_status_text);
+				holder.userImage = (ImageView) convertView
+						.findViewById(R.id.feed_item_user_img);
 
 				convertView.setTag(holder);
 			} else {
@@ -81,59 +97,85 @@ public class FeedActivity extends Fragment {
 			}
 
 			FeedEntry feedEntry = feedEntrysList.get(position);
+
+			// Set Feed:
 			holder.userName.setText(feedEntry.getUser().getFirstName());
-			//holder.userImage.setBackground(@drawble/ic)
+			holder.content.setText(feedEntry.getContent());
+			holder.comments.setText(setCommentsText(feedEntry.getComments().size()));
+			holder.meetText.setVisibility(View.GONE);
 			int index = feedEntry.getEntryTypeCode();
-			setContentValues(index, holder.status, holder.content, holder.meetText, holder.comments,
-					holder.statusImage, feedEntry.getUser());
-			
-			// holder.details.setText(usersList.get(position).());
+
+			setContentValues(index, holder.status, holder.meetText,
+					holder.statusImage);
 
 			return convertView;
 		}
 
-		
+		private String setCommentsText(int size) {
+			if (size == 0) {
+				return "No comments yet";
+			} else {
+				return (size+" comments");
+			}
+		}
+
 		class ViewHolder {
 			TextView userName, status, content, comments, meetText;
 			ImageView userImage, statusImage;
 		}
 	}
-	
-	private void setContentValues(int i, TextView detail, TextView content, TextView meetText, TextView comments, ImageView detailImage, User  user) {
+
+	private void setContentValues(int i, TextView status, TextView meetText,
+			ImageView detailImage) {
 		switch (i) {
-		case 0:	// Pass Time
-			detail.setText("is looking to pass time");
-			detail.setTextColor(getResources().getColor(R.color.blue_text));
-			if (detailImage != null) detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_feedentry_time));
+		case 0: // Pass Time
+			status.setText("is looking to pass time");
+			status.setTextColor(getResources().getColor(R.color.blue_text));
+			meetText.setText(getMeetText());
+			meetText.setVisibility(View.VISIBLE);
+			if (detailImage != null)
+				detailImage.setImageDrawable(getResources().getDrawable(
+						R.drawable.ic_feedentry_time));
 			break;
-		case 1:	// Eat
-			detail.setText("wants to eat something");
-			detail.setTextColor(getResources().getColor(R.color.green_text));
-			if (detailImage != null) detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_feedentry_food));
+		case 1: // Eat
+			status.setText("wants to eat something");
+			status.setTextColor(getResources().getColor(R.color.green_text));
+			meetText.setText(getMeetText());
+			meetText.setVisibility(View.VISIBLE);
+			if (detailImage != null)
+				detailImage.setImageDrawable(getResources().getDrawable(
+						R.drawable.ic_feedentry_food));
 			break;
 		case 2: // Cab
-			detail.setText("wants to share a cab");
-			detail.setTextColor(getResources().getColor(R.color.yellow_text));
-			if (detailImage != null) detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_feedentry_taxi));
+			status.setText("wants to share a cab");
+			status.setTextColor(getResources().getColor(R.color.yellow_text));
+			if (detailImage != null)
+				detailImage.setImageDrawable(getResources().getDrawable(
+						R.drawable.ic_feedentry_taxi));
 			break;
 		case 3: // Explore
-			detail.setText("is looking to explore the city");
-			detail.setTextColor(getResources().getColor(R.color.lilach_text));
-			if (detailImage != null) detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_feedentry_explore));
+			status.setText("is looking to explore the city");
+			status.setTextColor(getResources().getColor(R.color.lilach_text));
+			meetText.setText(getMeetText());
+			meetText.setVisibility(View.VISIBLE);
+			if (detailImage != null)
+				detailImage.setImageDrawable(getResources().getDrawable(
+						R.drawable.ic_feedentry_explore));
 			break;
 		case 5: // Advertisement 1
-			detail.setText("Starbuck cafe at terminal 3");
-			detail.setTextColor(getResources().getColor(R.color.pink_text));
-			//if (detailImage != null) detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_detail_5));
+			status.setText("Starbuck cafe at terminal 3");
+			status.setTextColor(getResources().getColor(R.color.pink_text));
+			// if (detailImage != null)
+			// detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_detail_5));
 			break;
 		case 6: // Advertisement 1
-			detail.setText("10% of all gadgets");
-			detail.setTextColor(getResources().getColor(R.color.pink_text));
-			//if (detailImage != null) detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_detail_5));
+			status.setText("10% of all gadgets");
+			status.setTextColor(getResources().getColor(R.color.pink_text));
+			// if (detailImage != null)
+			// detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_detail_5));
 			break;
 		}
 	}
-
 
 	public ArrayList<FeedEntry> getFeed() {
 
@@ -141,9 +183,72 @@ public class FeedActivity extends Fragment {
 		ArrayList<FeedEntry> feedEntrysList = new ArrayList<FeedEntry>();
 
 		/** MOCK FEED Entries **/
-		User user1 = new User("Alon", "Grinshpoon");
-		FeedEntry entry1= new FeedEntry(user1, "blah blah blah", "Taxi");
+		
+		User u1 = new User("Alon", "Grinshpoon");
+		FeedEntry entry1 = new FeedEntry(u1, "This is the content of the status");
 		feedEntrysList.add(entry1);
+		
+		u1 = new User("Rony", "Jacobson");
+		entry1 = new FeedEntry(u1 , "This is the content of the status");
+		feedEntrysList.add(entry1);
+		
+		u1 = new User("Alon", "Grinshpoon");
+		entry1 = new FeedEntry(u1 , "This is the content of the status");
+		feedEntrysList.add(entry1);
+		
+		u1 = new User("Idan", "Tsitaiat");
+		entry1 = new FeedEntry(u1 , "This is the content of the status");
+		feedEntrysList.add(entry1);
+		
+		
+		u1 = new User("Aviad", "Levi");
+		entry1 = new FeedEntry(u1 , "This is the content of the status");
+		feedEntrysList.add(entry1);
+		
+		
+		u1 = new User("Rony", "Jacobson");
+		entry1 = new FeedEntry(u1 , "This is the content of the status");
+		feedEntrysList.add(entry1);
+		
+		
+		u1 = new User("Alon", "Grinshpoon");
+		entry1 = new FeedEntry(u1 , "This is the content of the status");
+		feedEntrysList.add(entry1);
+		
+		
+		u1 = new User("Idan", "Tsitaiat");
+		entry1 = new FeedEntry(u1 , "This is the content of the status");
+		feedEntrysList.add(entry1);
+		
+		
+		u1 = new User("Aviad", "Levi");
+		entry1 = new FeedEntry(u1 , "This is the content of the status");
+		feedEntrysList.add(entry1);
+		
+		
+		u1 = new User("Rony", "Jacobson");
+		entry1 = new FeedEntry(u1 , "This is the content of the status");
+		feedEntrysList.add(entry1);
+		
+		
+		u1 = new User("Alon", "Grinshpoon");
+		entry1 = new FeedEntry(u1 , "This is the content of the status");
+		feedEntrysList.add(entry1);
+		
+		
+		u1 = new User("Idan", "Tsitaiat");
+		entry1 = new FeedEntry(u1 , "This is the content of the status");
+		feedEntrysList.add(entry1);
+		
+		entry1 = new FeedEntry(u1 , "This is the content of the status");
+		feedEntrysList.add(entry1);
+		
+		
+		
+		
+		u1 = new User("Aviad", "Levi");
+		
+		
 
 		return feedEntrysList;
 	}

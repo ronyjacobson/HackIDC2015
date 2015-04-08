@@ -6,13 +6,13 @@ import java.util.Random;
 
 public class FeedEntry {
 
-	static int GlobalID=0;
 	static int entryTypeCode = -1;
 	
 	String id;
 	User user;
 	String content;
-	String type;
+	
+	
 	List<String> comments;
 
 	public String getId() {
@@ -22,13 +22,9 @@ public class FeedEntry {
 	public User getUser() {
 		return user;
 	}
-
+	
 	public String getContent() {
 		return content;
-	}
-
-	public String getType() {
-		return type;
 	}
 
 	public List<String> getComments() {
@@ -47,20 +43,13 @@ public class FeedEntry {
 		this.content = content;
 	}
 
-	private void setType(String type) {
-		this.type = type;
-	}
-
 	private void setComments(List<String> comments) {
 		this.comments = comments;
 	}
 
-	public FeedEntry(User user, String content, String type) {
-		this.id= String.valueOf(GlobalID);
-		GlobalID++;
+	public FeedEntry(User user, String content) {
 		this.user = user;
 		this.content = content;
-		this.type = type;
 		this.comments= new ArrayList<String>();
 	}
 
