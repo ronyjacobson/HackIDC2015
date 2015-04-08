@@ -4,16 +4,22 @@ import il.co.onthefly.db.FeedEntry;
 import il.co.onthefly.db.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
+import com.google.android.gms.internal.di;
+import com.google.android.gms.internal.ex;
 import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
 import com.wdullaer.swipeactionadapter.SwipeDirections;
 import com.wdullaer.swipeactionadapter.SwipeActionAdapter.SwipeActionListener;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import il.co.onthefly.util.ExpandableListAdapter;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -22,6 +28,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,6 +36,10 @@ import android.widget.Toast;
 
 public class FeedActivity extends Fragment {
 
+	ExpandableListAdapter listAdapter;
+	ExpandableListView expListView;
+	List<String> listDataHeader;
+	HashMap<String, List<String>> listDataChild;
 	String[] meetText = new String[] { "You should meet!", "This sounds fun!",
 			"Great option!" };
 
@@ -119,25 +130,45 @@ public class FeedActivity extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				final Dialog dialog = new Dialog(getActivity().getApplicationContext());
+				final Dialog dialog = new Dialog(FeedActivity.this
+						.getActivity());
 				dialog.setContentView(R.layout.activity_add_post);
-				dialog.setTitle("Title...");
-	 
-				// set the custom dialog components - text, image and button
-				TextView text = (TextView) dialog.findViewById(R.id.text);
-				text.setText("Android custom dialog example!");
-				ImageView image = (ImageView) dialog.findViewById(R.id.image);
-				image.setImageResource(R.drawable.ic_launcher);
-	 
-				Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-				// if button is clicked, close the custom dialog
-				dialogButton.setOnClickListener(new OnClickListener() {
+				dialog.setTitle("I want to...");
+
+				// get the listview
+				expListView = (ExpandableListView) dialog
+						.findViewById(R.id.expandableListView);
+
+				// preparing list data
+				prepareListData();
+
+				listAdapter = new ExpandableListAdapter(
+						getActivity().getApplicationContext(), listDataHeader,
+						listDataChild);
+
+				// setting list adapter
+				expListView.setAdapter(listAdapter);
+
+				Button okButton = (Button) dialog
+						.findViewById(R.id.dialogButtonOK);
+				// if button is clicked, post
+				okButton.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						dialog.dismiss();
 					}
 				});
-	 
+				
+				Button cancelButton = (Button) dialog
+						.findViewById(R.id.dialogButtonOK);
+				// if button is clicked, post
+				cancelButton.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						dialog.dismiss();
+					}
+				});
+
 				dialog.show();
 			}
 		});
@@ -194,13 +225,14 @@ public class FeedActivity extends Fragment {
 						.findViewById(R.id.feed_item_user_img);
 
 				// Set Font
-				Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/GOTHIC.TTF"); 
+				Typeface type = Typeface.createFromAsset(getActivity()
+						.getAssets(), "fonts/GOTHIC.TTF");
 				holder.userName.setTypeface(type);
 				holder.status.setTypeface(type);
 				holder.comments.setTypeface(type);
 				holder.meetText.setTypeface(type);
 				holder.content.setTypeface(type);
-				
+
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
@@ -351,5 +383,47 @@ public class FeedActivity extends Fragment {
 		feedEntrysList.add(entry1);
 
 		return feedEntrysList;
+	}
+
+	/*
+	 * Preparing the list data
+	 */
+	private void prepareListData() {
+		listDataHeader = new ArrayList<String>();
+		listDataChild = new HashMap<String, List<String>>();
+
+		// Adding child data
+		listDataHeader.add("pass time");
+		listDataHeader.add("to eat something");
+		listDataHeader.add("share a cab");
+		listDataHeader.add("explore the city");
+
+		// Adding child data
+		List<String> passTime = new ArrayList<String>();
+		passTime.add("by talking together.");
+		passTime.add("by telling jokes.");
+		passTime.add("by doing business.");
+		passTime.add("by playing a game.");
+		passTime.add("by watching a movie.");
+
+
+		List<String> eat = new ArrayList<String>();
+		eat.add("at a coffee shop.");
+		eat.add("at a resturant.");
+
+		List<String> cab = new ArrayList<String>();
+		cab.add("to the city");
+		cab.add("to the seaport");
+		cab.add("to the suburbs");
+		
+		List<String> explore = new ArrayList<String>();
+		explore.add("by walking.");
+		explore.add("by bus.");
+		explore.add("by tour.");
+
+		listDataChild.put(listDataHeader.get(0), passTime); // Header, Child data
+		listDataChild.put(listDataHeader.get(1), eat);
+		listDataChild.put(listDataHeader.get(2), cab);
+		listDataChild.put(listDataHeader.get(3), explore);
 	}
 }
