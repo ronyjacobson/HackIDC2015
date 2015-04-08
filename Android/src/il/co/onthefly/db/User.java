@@ -23,9 +23,9 @@ public class User {
 
 	/* Flight Information */
 	private String flightNum;
-	private String from;
-	private String destination;
-	private String connection;
+	private String fromAirport;
+	private String destinationAirport;
+	private String connectionAirport;
 
 	public User() {
 	}
@@ -101,7 +101,27 @@ public class User {
 		this.id = id;
 	}
 
-	private void setFirstName(String firstName) {
+	public String getFacebookID() {
+		return facebookID;
+	}
+
+	public String getFlightNum() {
+		return flightNum;
+	}
+
+	public String getFromAirport() {
+		return fromAirport;
+	}
+
+	public String getDestinationAirport() {
+		return destinationAirport;
+	}
+
+	public String getConnectionAirport() {
+		return connectionAirport;
+	}
+
+	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
@@ -147,18 +167,18 @@ public class User {
 		
 	}
 
-	private void setFrom(String from) {
-		this.from= from;
+	private void setFromAirport(String from) {
+		this.fromAirport= from;
 		
 	}
 
-	private void setDestination(String destination) {
-		this.destination= destination;
+	private void setDestinationAirport(String destination) {
+		this.destinationAirport= destination;
 		
 	}
 
-	private void setConnection(String connection) {
-		this.connection = connection;
+	private void setConnectionAirport(String connection) {
+		this.connectionAirport = connection;
 		
 	}
 
@@ -222,17 +242,17 @@ public class User {
 				e.printStackTrace();
 			}
 			try {
-				user.setFrom(json.getString("from"));
+				user.setFromAirport(json.getString("from"));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 			try {
-				user.setDestination(json.getString("destination"));
+				user.setDestinationAirport(json.getString("destination"));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 			try {
-				user.setConnection(json.getString("connection"));
+				user.setConnectionAirport(json.getString("connection"));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

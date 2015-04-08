@@ -4,8 +4,8 @@
     <color name="transparent">#FFFFFF</color>
     <color name="actionbar_background">#F20000</color>
     <color name="actionbar_text">#FFFFFF</color>
-    
-    <!--  Tabs  -->
+
+    <!-- Tabs -->
     <color name="actionbar_tab_background">#FFFFFF</color>
     <color name="tab_unselected">#FFFFFF</color>
     <color name="tab_selected">#FFFFFF</color>
@@ -14,7 +14,7 @@
     <color name="tab_unselected_pressed">#FFFFFF</color>
     <color name="tab_selected_pressed">#FFFFFF</color>
     <color name="actionbar_tabs_text">#000000</color>
-    
+
     <!-- Detail Text -->
     <color name="blue_text">#2e75b6</color>
     <color name="yellow_text">#ffc90e</color>
@@ -22,5 +22,6 @@
     <color name="lilach_text">#c8bfe7</color>
     <color name="pink_text">#ffa5d2</color>
     <color name="light_blue_text">#8ddcf6</color>
+    <color name="black_overlay">#66000000</color>
 
 </resources>
