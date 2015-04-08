@@ -46,8 +46,8 @@
             android:id="@+id/feed_item_status_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hi im bkl sl ;slkjfs;fl s afjsf;j" 
-            android:paddingBottom="4dp"/>
+            android:paddingBottom="4dp"
+            android:paddingLeft="4dp"/>
     </LinearLayout>
 
     <ImageView
@@ -56,7 +56,7 @@
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/ic_user" />
 
     <TextView
         android:id="@+id/feed_item_meet_text"
@@ -64,12 +64,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_below="@id/linearLayout1"
         android:background="#c00000"
-        android:text="3 comments"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
-        android:textColor="#ffffff" 
-        android:layout_below="@id/linearLayout1"/>
+        android:text="3 comments"
+        android:textColor="#ffffff" />
 
     <TextView
         android:id="@+id/feed_item_comments_text"
@@ -77,10 +77,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_below="@id/linearLayout1"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:text="3 comments"
-        android:textColor="#c00000" 
-        android:layout_below="@id/linearLayout1"/>
+        android:textColor="#c00000" />
 
 </RelativeLayout>

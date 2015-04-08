@@ -12,6 +12,7 @@ import android.os.DropBoxManager.Entry;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -39,6 +40,17 @@ public class FeedActivity extends Fragment {
 		FeedListAdapter feedListAdapter = new FeedListAdapter(getActivity(),
 				getFeed());
 		listView.setAdapter(feedListAdapter);
+		
+		/* Add new post*/
+		ImageView addBtn= (ImageView) feed.findViewById(R.id.feed_fab);
+		addBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 
 		return feed;
 	}
@@ -65,7 +77,7 @@ public class FeedActivity extends Fragment {
 
 		@Override
 		public long getItemId(int i) {
-			return Long.parseLong(feedEntrysList.get(i).getId());
+			return (long) i;
 		}
 
 		public View getView(int position, View convertView, ViewGroup parent) {
@@ -240,14 +252,10 @@ public class FeedActivity extends Fragment {
 		entry1 = new FeedEntry(u1 , "This is the content of the status");
 		feedEntrysList.add(entry1);
 		
-		entry1 = new FeedEntry(u1 , "This is the content of the status");
-		feedEntrysList.add(entry1);
-		
-		
-		
 		
 		u1 = new User("Aviad", "Levi");
-		
+		entry1 = new FeedEntry(u1 , "This is the content of the status");
+		feedEntrysList.add(entry1);
 		
 
 		return feedEntrysList;
