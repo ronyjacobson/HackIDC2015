@@ -11,6 +11,6 @@ public class ChatActivity extends Fragment {
       public View onCreateView(LayoutInflater inflater, ViewGroup container,
               Bundle savedInstanceState) {
           View chat = inflater.inflate(R.layout.activity_chat, container, false);
-          ((TextView)chat.findViewById(R.id.textView)).setText("Chat frag");
+          ((TextView)chat.findViewById(R.id.textView)).setText("Coming Soon...");
           return chat;
 }}
