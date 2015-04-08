@@ -82,18 +82,62 @@ public class FeedActivity extends Fragment {
 				holder = (ViewHolder) convertView.getTag();
 			}
 
-			holder.userName.setText(feedEntrysList.get(position).getUser().getFullName());
+			FeedEntry feedEntry = feedEntrysList.get(position);
+			holder.userName.setText(feedEntry.getUser().getFirstName());
+			//holder.userImage.setBackground(@drawble/ic)
+			setContentValues(feedEntry.getEntryTypeCode(), holder.status,
+					holder.statusImage, feedEntry.getUser());
+			setContentValues(feedEntry.getEntryTypeCode(), holder.content, null, feedEntry.getUser());
+			setContentValues(feedEntry.getEntryTypeCode(), holder.meetText, null, feedEntry.getUser());
+			setContentValues(feedEntry.getEntryTypeCode(), holder.comments, null, feedEntry.getUser());
 			
 			// holder.details.setText(usersList.get(position).());
 
 			return convertView;
 		}
 
+		
 		class ViewHolder {
 			TextView userName, content, status, comments, meetText;
 			ImageView userImage, statusImage;
 		}
 	}
+	
+	private void setContentValues(int i, TextView detail, ImageView detailImage, User  user) {
+		switch (i) {
+		case 0:	// Pass Time
+			detail.setText("is looking to pass time");
+			detail.setTextColor(getResources().getColor(R.color.blue_text));
+			if (detailImage != null) detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_feedentry_time));
+			break;
+		case 1:	// Eat
+			detail.setText("wants to eat something");
+			detail.setTextColor(getResources().getColor(R.color.green_text));
+			if (detailImage != null) detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_feedentry_food));
+			break;
+		case 2: // Cab
+			detail.setText("wants to share a cab");
+			detail.setTextColor(getResources().getColor(R.color.yellow_text));
+			if (detailImage != null) detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_feedentry_taxi));
+			break;
+		case 3: // Explore
+			detail.setText("is looking to explore the city");
+			detail.setTextColor(getResources().getColor(R.color.lilach_text));
+			if (detailImage != null) detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_feedentry_explore));
+			break;
+		case 5: // Advertisement 1
+			detail.setText("Starbuck cafe at terminal 3");
+			detail.setTextColor(getResources().getColor(R.color.pink_text));
+			//if (detailImage != null) detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_detail_5));
+			break;
+		case 6: // Advertisement 1
+			detail.setText("10% of all gadgets");
+			detail.setTextColor(getResources().getColor(R.color.pink_text));
+			//if (detailImage != null) detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_detail_5));
+			break;
+		}
+	}
+
 
 	public ArrayList<FeedEntry> getFeed() {
 
@@ -101,7 +145,7 @@ public class FeedActivity extends Fragment {
 		ArrayList<FeedEntry> feedEntrysList = new ArrayList<FeedEntry>();
 
 		/** MOCK FEED Entries **/
-		User user1 = new User("rony", "jacobson");
+		User user1 = new User("Alon", "Grinshpoon");
 		FeedEntry entry1= new FeedEntry(user1, "blah blah blah", "Taxi");
 		feedEntrysList.add(entry1);
 

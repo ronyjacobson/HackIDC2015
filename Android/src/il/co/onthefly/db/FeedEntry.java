@@ -2,6 +2,7 @@ package il.co.onthefly.db;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class FeedEntry {
 
@@ -60,6 +61,10 @@ public class FeedEntry {
 		this.content = content;
 		this.type = type;
 		this.comments= new ArrayList<String>();
+	}
+
+	public int getEntryTypeCode() {
+		return GlobalID % 7;
 	}
 	
 	//TODO: toString(User user), Parse(String)...
