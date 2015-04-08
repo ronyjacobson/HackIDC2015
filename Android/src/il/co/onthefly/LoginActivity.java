@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.facebook.Session;
@@ -19,6 +22,9 @@ import com.facebook.widget.LoginButton.UserInfoChangedCallback;
 public class LoginActivity extends FragmentActivity {
 
 	private LoginButton loginBtn;
+	private RelativeLayout loginButtonGooglePlus;
+	private RelativeLayout loginButtonTwitter;
+	private RelativeLayout loginButtonLinkedIn;
 
 	private UiLifecycleHelper uiHelper;
 
@@ -47,6 +53,39 @@ public class LoginActivity extends FragmentActivity {
 				} else {
 					// Unable to connect
 				}
+			}
+		});
+		loginButtonGooglePlus = (RelativeLayout) findViewById(R.id.layout_login_google_plus);
+		loginButtonGooglePlus.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// // Show toast
+            	Toast.makeText(getApplicationContext(), "Coming soon...",
+           			   Toast.LENGTH_SHORT).show();
+				
+			}
+		});
+		loginButtonTwitter = (RelativeLayout) findViewById(R.id.layout_login_twitter);
+		loginButtonTwitter.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// // Show toast
+            	Toast.makeText(getApplicationContext(), "Coming soon...",
+           			   Toast.LENGTH_SHORT).show();
+				
+			}
+		});
+		loginButtonLinkedIn = (RelativeLayout) findViewById(R.id.layout_login_linkedin);
+		loginButtonLinkedIn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// // Show toast
+            	Toast.makeText(getApplicationContext(), "Coming soon...",
+           			   Toast.LENGTH_SHORT).show();
+				
 			}
 		});
 	}

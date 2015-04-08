@@ -50,6 +50,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/layout_login_google_plus"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="50dp"
@@ -68,6 +69,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/layout_login_twitter"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="50dp"
@@ -86,6 +88,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/layout_login_linkedin"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="50dp"
