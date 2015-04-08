@@ -365,11 +365,6 @@ public class PeopleActivity extends Fragment implements AsyncResponse {
 						dir = "Right";
 						break;
 					}
-					Toast.makeText(
-							getActivity().getApplicationContext(),
-							dir + " swipe Action triggered on "
-									+ swipeAdapter.getItem(position),
-							Toast.LENGTH_SHORT).show();
 					swipeAdapter.notifyDataSetChanged();
 				}
 			}
