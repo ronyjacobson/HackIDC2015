@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:layout_weight="1.97"
     android:background="#FFFFFF"
     android:paddingBottom="4dp" >
 
@@ -16,7 +15,6 @@
             android:id="@+id/linearLayout2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="6"
             android:orientation="horizontal" >
 
             <TextView
@@ -37,45 +35,52 @@
 
             <ImageView
                 android:id="@+id/feed_item_status_img"
-                android:layout_width="75dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="0.63"
-                android:src="@drawable/ic_launcher" />
-
-            <ImageView
-                android:id="@+id/user_img"
-                android:layout_width="75dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="0.63"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="4dp"
                 android:src="@drawable/ic_launcher" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linearLayout3"
+        <TextView
+            android:id="@+id/feed_item_status_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="6"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/feed_item_meet_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:background="#c00000"
-                android:text="3 comments"
-                android:textColor="#ffffff" />
-
-            <TextView
-                android:id="@+id/feed_item_comments_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="3 comments"
-                android:textColor="#c00000" />
-        </LinearLayout>
+            android:text="Hi im bkl sl ;slkjfs;fl s afjsf;j" 
+            android:paddingBottom="4dp"/>
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/user_img"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/feed_item_meet_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="#c00000"
+        android:text="3 comments"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:textColor="#ffffff" 
+        android:layout_below="@id/linearLayout1"/>
+
+    <TextView
+        android:id="@+id/feed_item_comments_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:text="3 comments"
+        android:textColor="#c00000" 
+        android:layout_below="@id/linearLayout1"/>
 
 </RelativeLayout>
