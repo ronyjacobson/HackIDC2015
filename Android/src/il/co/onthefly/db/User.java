@@ -1,30 +1,45 @@
 package il.co.onthefly.db;
 
+import il.co.onthefly.LoginActivity;
+import il.co.onthefly.R;
+
+import java.util.Collection;
+import java.util.Currency;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
+import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class User {
 
 	/* personal Information */
 	private String facebookID;
+	private String userImage;
 	private String id;
 	private String firstName;
 	private String lastName;
 	private String birthday;
 	private String age;
+	private String watingTime;
+	private String kids;
 	private String country;
 	private String email;
 	private String phone;
 	private String school;
 	private String degree;
 	private String work;
+	private HashSet<Integer> detailsTypes = new HashSet<Integer>();
 
 	/* Flight Information */
 	private String flightNum;
-	private String fromAirport;
-	private String destinationAirport;
+	private String origin;
+	private String destination;
 	private String connectionAirport;
 
 	public User() {
@@ -35,26 +50,24 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public User(String firstName, String lastName, String birthday,
-			String country, String email, String phone, String school,
-			String degree, String work) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.birthday = birthday;
-		this.country = country;
-		this.email = email;
-		this.phone = phone;
-		this.school = school;
-		this.degree = degree;
-		this.work = work;
-	}
-
 	public String getId() {
 		return id;
 	}
-	
+
+	public boolean withKids() {
+		return (kids.equals("1"));
+	}
+
 	public String getAge() {
 		return age;
+	}
+
+	public String getUserImage() {
+		return userImage;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
 	}
 
 	public String getFirstName() {
@@ -89,6 +102,10 @@ public class User {
 		return school;
 	}
 
+	public HashSet<Integer> getDetailsTypes() {
+		return detailsTypes;
+	}
+
 	public String getDegree() {
 		return degree;
 	}
@@ -110,11 +127,11 @@ public class User {
 	}
 
 	public String getFromAirport() {
-		return fromAirport;
+		return origin;
 	}
 
 	public String getDestinationAirport() {
-		return destinationAirport;
+		return destination;
 	}
 
 	public String getConnectionAirport() {
@@ -131,7 +148,7 @@ public class User {
 
 	private void setBirthday(String birthday) {
 		this.birthday = birthday;
-		this.age= "25"; //= TODO
+		this.age = "25"; // = TODO
 	}
 
 	private void setCountry(String country) {
@@ -161,98 +178,85 @@ public class User {
 	private void setFacebookID(String fbID) {
 		this.facebookID = fbID;
 	}
-	
+
+	private void setUserImage(String img) {
+		this.userImage = img;
+	}
+
 	private void setFlightNum(String flightNum) {
-		this.flightNum=flightNum;;
-		
+		this.flightNum = flightNum;
+		;
+
 	}
 
 	private void setFromAirport(String from) {
-		this.fromAirport= from;
-		
+		this.origin = from;
+
+	}
+
+	private void setWaitingTime(String time) {
+		this.watingTime = time;
+
 	}
 
 	private void setDestinationAirport(String destination) {
-		this.destinationAirport= destination;
-		
+		this.destination = destination;
+
 	}
 
 	private void setConnectionAirport(String connection) {
 		this.connectionAirport = connection;
-		
+
 	}
 
-	private User parseJsonToUser(String jsonStr) {
+	private void setKids(String string) {
+		this.kids = string;
+
+	}
+	
+	public User(String facebookID, String userImage, String id,
+			String firstName, String lastName, String birthday,
+			String country, String email, String school, String degree,
+			String work, String flightNum, String fromAirport,
+			String destinationAirport) {
+		super();
+		this.facebookID = facebookID;
+		this.userImage = userImage;
+		this.id = facebookID;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthday = birthday;
+		this.kids = "0";
+		this.country = country;
+		this.email = email;
+		this.school = school;
+		this.degree = degree;
+		this.work = work;
+		this.flightNum = flightNum;
+		this.origin = fromAirport;
+		this.destination = destinationAirport;
+	}
+
+	public User parseJsonToUserItem(String jsonStr) {
 		User user = new User();
+
 		try {
 			JSONObject json = new JSONObject(jsonStr);
 			try {
-				/** Obligatory Data **/
 				user.setId(json.getString("id"));
-				user.setFirstName(json.getString("firstName"));
-				user.setLastName(json.getString("lastName"));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-
-			/** Non Obligatory Data **/
-			try {
-				user.setBirthday(json.getString("birthday"));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			try {
-				user.setFacebookID(json.getString("facebookID"));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			try {
 				user.setCountry(json.getString("country"));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			try {
-				user.setEmail(json.getString("email"));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			try {
-				user.setPhone(json.getString("phone"));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			try {
-				user.setSchool(json.getString("school"));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			try {
-				user.setDegree(json.getString("degree"));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			try {
+				user.setUserImage(json.getString("img"));
+				user.setFirstName(json.getString("name"));
+				user.setAge(json.getString("age"));
+				user.setConnectionAirport(json.getString("airport"));
+				user.setWaitingTime(json.getString("waiting"));
 				user.setWork(json.getString("work"));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			try {
-				user.setFlightNum(json.getString("flightNum"));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			try {
-				user.setFromAirport(json.getString("from"));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			try {
+				user.setDegree(json.getString("studies"));
+				user.setKids(json.getString("kids"));
 				user.setDestinationAirport(json.getString("destination"));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			try {
-				user.setConnectionAirport(json.getString("connection"));
+				LoginActivity.currentUser.setDetails(user); 
+				return user;
+
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -263,31 +267,31 @@ public class User {
 
 	}
 
-	public int getDetailCode(int i) {
-		//TODO
-		Random r = new Random();
-		return r.nextInt(6);
+	private void setDetails(User user) {
+		if (!user.getDestinationAirport().equals("")) {
+			detailsTypes.add(0);
+		}
+		if (LoginActivity.currentUser.withKids() && user.withKids()) {
+			detailsTypes.add(1);
+		}
+		if (LoginActivity.currentUser.getCountry() == user.getCountry()) {
+			detailsTypes.add(2);
+		}
+		if (LoginActivity.currentUser.getAge() == user.getAge()) {
+			detailsTypes.add(3);
+		}
+		if (LoginActivity.currentUser.getDegree() == user.getDegree()) {
+			detailsTypes.add(4);
+		}
+		if (LoginActivity.currentUser.getWork() == user.getWork()) {
+			detailsTypes.add(5);
+		}
+		if (LoginActivity.currentUser.getConnectionAirport() == user
+				.getConnectionAirport()) {
+			detailsTypes.add(6);
+		}
+		
+
 	}
-
-
-
-	/*
-	 * public void writeUserToJSON() { JSONObject object = new JSONObject(); try
-	 * { object.put("firstName", this.getFirstName()); object.put("firstName",
-	 * this.getFirstName()); object.put("firstName", this.getFirstName());
-	 * object.put("firstName", this.getFirstName()); object.put("firstName",
-	 * this.getFirstName()); object.put("firstName", this.getFirstName());
-	 * object.put("firstName", this.getFirstName());
-	 * 
-	 * private String facebookID; private String id; private String firstName;
-	 * private String lastName; private String birthday; private String country;
-	 * private String email; private String phone; private String school;
-	 * private String degree; private String work; private String flightNum;
-	 * private String from; private String destination; private String
-	 * connection; } catch (JSONException e) { e.printStackTrace(); }
-	 * System.out.println(object); }
-	 */
-
-	// TODO: toString(User user)
 
 }
