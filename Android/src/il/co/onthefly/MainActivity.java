@@ -1,7 +1,5 @@
 package il.co.onthefly;
 
-import il.co.onthefly.db.User;
-
 import java.util.Locale;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -23,7 +21,7 @@ import android.view.MenuItem;
 
 public class MainActivity extends FragmentActivity implements
 		ConnectionCallbacks, OnConnectionFailedListener {
-	ViewPager Tab;
+	static public ViewPager Tab;
 	TabPagerAdapter TabAdapter;
 	
 	//Maps Integration

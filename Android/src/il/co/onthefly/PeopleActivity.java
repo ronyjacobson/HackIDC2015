@@ -61,7 +61,7 @@ public class PeopleActivity extends Fragment {
 	        @Override
 	        public boolean shouldDismiss(int position, int direction){
 	            // Only dismiss an item when swiping normal left
-	            return direction == SwipeDirections.DIRECTION_NORMAL_LEFT;
+	            return true;
 	        }
 
 	        @Override
@@ -87,11 +87,18 @@ public class PeopleActivity extends Fragment {
 	                        dir = "Right";
 	                        break;
 	                }
-	                Toast.makeText(
-	                		getActivity().getApplicationContext(),
-	                        dir + " swipe Action triggered on " + swipeAdapter.getItem(position),
-	                        Toast.LENGTH_SHORT
-	                ).show();
+	                if (dir.equals("Far left") || dir.equals("Left")){
+	                	// Poke
+	                	Toast.makeText(
+		                		getActivity().getApplicationContext(),
+		                        "You poked " + ((User) swipeAdapter.getItem(position)).getFirstName() + "!",
+		                        Toast.LENGTH_SHORT
+		                ).show();
+	                } else {
+	                	// Move to chat
+	                	MainActivity.Tab.setCurrentItem(2, true);
+	                }
+	                
 	                swipeAdapter.notifyDataSetChanged();
 	            }
 	        }
@@ -157,7 +164,7 @@ public class PeopleActivity extends Fragment {
 			}
 
 			User user = usersList.get(position);
-			holder.name.setText(user.getFirstName() + " ," + user.getAge());
+			holder.name.setText(user.getFirstName() + ", " + user.getAge());
 			// holder.userImage.setImageResource(R.drawable.ic_launcher);
 
 			setDetails(user.getDetailCode(0), holder.detail0,
