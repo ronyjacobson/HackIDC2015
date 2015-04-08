@@ -8,7 +8,6 @@ import il.co.onthefly.db.User;
 import java.util.ArrayList;
 import java.util.Random;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Typeface;
@@ -25,6 +24,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.facebook.widget.ProfilePictureView;
 import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
 import com.wdullaer.swipeactionadapter.SwipeActionAdapter.SwipeActionListener;
 import com.wdullaer.swipeactionadapter.SwipeDirections;
@@ -202,7 +202,7 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 						.findViewById(R.id.feed_item_meet_text);
 				holder.content = (TextView) convertView
 						.findViewById(R.id.feed_item_status_text);
-				holder.userImage = (ImageView) convertView
+				holder.userImage = (ProfilePictureView) convertView
 						.findViewById(R.id.feed_item_user_img);
 
 				// Set Font
@@ -225,6 +225,8 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 			holder.content.setText(feedEntry.getContent());
 			holder.comments.setText(setCommentsText(feedEntry.getComments()
 					.size()));
+			holder.userImage.setProfileId(feedEntry.getUserId());
+			
 			holder.meetText.setVisibility(View.GONE);
 			int index = feedEntry.getEntryTypeCode();
 
@@ -244,7 +246,8 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 
 		class ViewHolder {
 			TextView userName, status, content, comments, meetText;
-			ImageView userImage, statusImage;
+			ImageView statusImage;
+			ProfilePictureView userImage;
 		}
 	}
 
@@ -285,13 +288,13 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 				detailImage.setImageDrawable(getResources().getDrawable(
 						R.drawable.ic_feedentry_explore));
 			break;
-		case 5: // Advertisement 1
+		case 4: // Advertisement 1
 			status.setText("Starbuck cafe at terminal 3");
 			status.setTextColor(getResources().getColor(R.color.pink_text));
 			// if (detailImage != null)
 			// detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_detail_5));
 			break;
-		case 6: // Advertisement 1
+		case 5: // Advertisement 1
 			status.setText("10% of all gadgets");
 			status.setTextColor(getResources().getColor(R.color.pink_text));
 			// if (detailImage != null)

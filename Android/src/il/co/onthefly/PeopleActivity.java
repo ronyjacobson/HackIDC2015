@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.widget.ProfilePictureView;
 import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
 import com.wdullaer.swipeactionadapter.SwipeActionAdapter.SwipeActionListener;
 import com.wdullaer.swipeactionadapter.SwipeDirections;
@@ -78,7 +79,7 @@ public class PeopleActivity extends Fragment implements AsyncResponse {
 
 				holder.name = (TextView) convertView
 						.findViewById(R.id.user_item_name);
-				holder.userImage = (ImageView) convertView
+				holder.userImage = (ProfilePictureView) convertView
 						.findViewById(R.id.user_img);
 				holder.timeLeft = (TextView) convertView
 						.findViewById(R.id.user_item_timeLeft);
@@ -98,13 +99,14 @@ public class PeopleActivity extends Fragment implements AsyncResponse {
 						.findViewById(R.id.detail_image2);
 
 				// Set Font
-				Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/GOTHIC.TTF"); 
+				Typeface type = Typeface.createFromAsset(getActivity()
+						.getAssets(), "fonts/GOTHIC.TTF");
 				holder.name.setTypeface(type);
 				holder.detail0.setTypeface(type);
 				holder.detail1.setTypeface(type);
 				holder.detail2.setTypeface(type);
 				holder.timeLeft.setTypeface(type);
-				
+
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
@@ -113,7 +115,7 @@ public class PeopleActivity extends Fragment implements AsyncResponse {
 			User user = usersList.get(position);
 			holder.name.setText(user.getFirstName() + ", " + user.getAge());
 			holder.timeLeft.setText(user.getWatingTime());
-			// holder.userImage.setImageResource(R.drawable.ic_launcher);
+			holder.userImage.setProfileId(user.getId());
 			
 			/**
 			 * setDetails(new Random().nextInt(7), holder.detail0,
@@ -121,7 +123,7 @@ public class PeopleActivity extends Fragment implements AsyncResponse {
 			 * holder.detail1, holder.detailImage1, user); setDetails(new
 			 * Random().nextInt(7), holder.detail2, holder.detailImage2, user);
 			 **/
-			
+
 			/**
 			 * When DB is Integrated
 			 **/
@@ -131,7 +133,7 @@ public class PeopleActivity extends Fragment implements AsyncResponse {
 
 			for (int detailNum = 0; detailNum < numOfDetails; detailNum++) {
 				Integer type = 0;
-				
+
 				int randItemNum = new Random().nextInt(types.size());
 				int i = 0;
 
@@ -217,7 +219,7 @@ public class PeopleActivity extends Fragment implements AsyncResponse {
 
 		class ViewHolder {
 			private TextView name, details, timeLeft;
-			private ImageView userImage;
+			private ProfilePictureView userImage;
 			// Details Views
 			private TextView detail0, detail1, detail2;
 			private ImageView detailImage0, detailImage1, detailImage2;

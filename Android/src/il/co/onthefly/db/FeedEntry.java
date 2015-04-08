@@ -1,10 +1,7 @@
 package il.co.onthefly.db;
 
-import il.co.onthefly.LoginActivity;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,6 +63,9 @@ public class FeedEntry {
 	}
 
 	public int getEntryTypeCode() {
+		if (typeCode!= null) {
+			return Integer.parseInt(typeCode);
+		}
 		entryTypeCode++;
 		return entryTypeCode % 7;
 	}
@@ -131,13 +131,22 @@ public class FeedEntry {
 
 	}
 
-	public CharSequence getUserName() {
+	public String getUserName() {
 		if (this.user == null) {
 			return this.userName;
 		} else {
 			return this.user.getFirstName();
 		}
 	}
+	
+	public String getUserId() {
+		if (this.user == null) {
+			return this.userId;
+		} if (this.userId != null) {
+			return this.userId;
+		} else return "";
+	}
+
 
 	// TODO: toString(User user)
 
