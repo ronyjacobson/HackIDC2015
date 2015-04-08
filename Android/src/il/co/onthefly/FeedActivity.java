@@ -27,7 +27,7 @@ import android.widget.Toast;
 public class FeedActivity extends Fragment {
 
 	String[] meetText = new String[] { "You should meet!", "This sounds fun!",
-			"You should join!" };
+			"Great option!" };
 
 	public String getMeetText() {
 		Random r = new Random();
