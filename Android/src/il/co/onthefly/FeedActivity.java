@@ -7,7 +7,6 @@ import il.co.onthefly.db.User;
 import il.co.onthefly.util.ExpandableListAdapter;
 
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -16,8 +15,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -44,14 +41,13 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 	ExpandableListView expListView;
 	List<String> listDataHeader;
 	HashMap<String, List<String>> listDataChild;
-	String[] meetText = new String[] {"", "", "", "", "You should meet!",
-			"This sounds fun!", "Why not join?", "Great option!", "", "", "", ""};
+	String[] meetTextArr = new String[] {"This sounds fun!", "Why not join?", "Great option!","","",""};
 	EditText editText;
 
 	public String getMeetText() {
 		Random r = new Random();
-		int i = r.nextInt(meetText.length);
-		return meetText[i];
+		int i = r.nextInt(meetTextArr.length);
+		return meetTextArr[i];
 	}
 
 	ArrayList<FeedEntry> feedEntrysList;
@@ -320,8 +316,9 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 		case 0: // Pass Time
 			status.setText("is looking to pass time");
 			status.setTextColor(getResources().getColor(R.color.blue_text));
-			if (!getMeetText().equals("")) {
-				meetText.setText(getMeetText());
+			String meet = getMeetText();
+			if (!("").equals(meet)) {
+				meetText.setText(meet);
 				meetText.setVisibility(View.VISIBLE);
 				meetText.setBackgroundColor(Color.parseColor("#c00000"));
 			}
@@ -332,8 +329,9 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 		case 1: // Eat
 			status.setText("wants to eat something");
 			status.setTextColor(getResources().getColor(R.color.green_text));
-			if (!getMeetText().equals("")) {
-				meetText.setText(getMeetText());
+			meet = getMeetText();
+			if (!("").equals(meet)) {
+				meetText.setText(meet);
 				meetText.setVisibility(View.VISIBLE);
 				meetText.setBackgroundColor(Color.parseColor("#c00000"));
 			}
@@ -351,8 +349,9 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 		case 3: // Explore
 			status.setText("is looking to explore the city");
 			status.setTextColor(getResources().getColor(R.color.lilach_text));
-			if (!getMeetText().equals("")) {
-				meetText.setText(getMeetText());
+			meet = getMeetText();
+			if (!("").equals(meet)) {
+				meetText.setText(meet);
 				meetText.setVisibility(View.VISIBLE);
 				meetText.setBackgroundColor(Color.parseColor("#c00000"));
 			}
@@ -361,16 +360,12 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 						R.drawable.ic_feedentry_explore));
 			break;
 		case 4: // Advertisement 1
-			status.setText("Starbuck cafe at terminal 3");
-			status.setTextColor(getResources().getColor(R.color.pink_text));
-			// if (detailImage != null)
-			// detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_detail_5));
+			status.setVisibility(View.GONE);
+			detailImage.setVisibility(View.GONE);
 			break;
 		case 5: // Advertisement 1
-			status.setText("10% of all gadgets");
-			status.setTextColor(getResources().getColor(R.color.pink_text));
-			// if (detailImage != null)
-			// detailImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_detail_5));
+			status.setVisibility(View.GONE);
+			detailImage.setVisibility(View.GONE);
 			break;
 		}
 	}
