@@ -341,7 +341,7 @@ public class PeopleActivity extends Fragment implements AsyncResponse {
 			@Override
 			public boolean shouldDismiss(int position, int direction) {
 				// Only dismiss an item when swiping normal left
-				return direction == SwipeDirections.DIRECTION_NORMAL_LEFT;
+				return true;
 			}
 
 			@Override
@@ -362,13 +362,21 @@ public class PeopleActivity extends Fragment implements AsyncResponse {
 						dir = "Far right";
 						break;
 					case SwipeDirections.DIRECTION_NORMAL_RIGHT:
-						AlertDialog.Builder builder = new AlertDialog.Builder(
-								getActivity().getApplicationContext());
-						builder.setTitle("Test Dialog")
-								.setMessage("You swiped right").create().show();
 						dir = "Right";
 						break;
 					}
+					
+					if (dir.equals("Far left") || dir.equals("Left")){
+	                	// Poke
+	                	Toast.makeText(
+		                		getActivity().getApplicationContext(),
+		                        "You poked " + ((User) swipeAdapter.getItem(position)).getFirstName() + "!",
+		                        Toast.LENGTH_SHORT
+		                ).show();
+	                } else {
+	                	// Move to chat
+	                	MainActivity.Tab.setCurrentItem(2, true);
+	                }
 					swipeAdapter.notifyDataSetChanged();
 				}
 			}
