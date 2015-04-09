@@ -4,6 +4,8 @@ import il.co.onthefly.db.User;
 
 import java.util.Arrays;
 import java.util.List;
+
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,8 +63,29 @@ public class LoginActivity extends FragmentActivity {
 					// Show toast
                 	Toast.makeText(getApplicationContext(), "Welcome " + user.getFirstName() +"!",
               			   Toast.LENGTH_SHORT).show();
-                	// Continue to next screen
-                    continuteToNextScreen(2000);
+                	
+                	final Dialog dialog = new Dialog(LoginActivity.this);
+    				dialog.setContentView(R.layout.activity_add_flight);
+    				dialog.setTitle("What your flight code " + user.getFirstName() +"?");
+    				
+    				Button goButton = (Button) dialog
+    						.findViewById(R.id.dialogButtonGO);
+    				// if button is clicked, post
+    				goButton.setOnClickListener(new OnClickListener() {
+    					@Override
+    					public void onClick(View v) {
+    	                	// Continue to next screen
+    						currentUser.setFlightNum("AZ815");
+    	                    continuteToNextScreen(2000);
+    						dialog.dismiss();
+    						Toast.makeText(getApplicationContext(), "Got it!",
+    		              			   Toast.LENGTH_SHORT).show();
+    					}
+    				});
+
+    				dialog.show();
+
+
 				} else {
 					// Unable to connect
 				}
