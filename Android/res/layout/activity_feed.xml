@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:background="#d9d9d9"
             android:divider="@android:color/transparent"
-            android:dividerHeight="10.0sp" >
+            android:dividerHeight="4dp" >
         </ListView>
     </LinearLayout>
 
@@ -33,7 +33,7 @@
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
         android:background="@android:color/transparent"
-        android:src="@drawable/ic_fab"
-        android:clickable="true"/>
+        android:clickable="true"
+        android:src="@drawable/ic_fab" />
 
 </RelativeLayout>
