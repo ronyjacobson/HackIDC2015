@@ -173,7 +173,7 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 				});
 				
 				Button cancelButton = (Button) dialog
-						.findViewById(R.id.dialogButtonOK);
+						.findViewById(R.id.dialogButtonCancel);
 				// if button is clicked, post
 				cancelButton.setOnClickListener(new OnClickListener() {
 					@Override
@@ -439,9 +439,9 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 		eat.add("at a resturant.");
 
 		List<String> cab = new ArrayList<String>();
-		cab.add("to the city");
-		cab.add("to the seaport");
-		cab.add("to the suburbs");
+		cab.add("to the city.");
+		cab.add("to the seaport.");
+		cab.add("to the suburbs.");
 		
 		List<String> explore = new ArrayList<String>();
 		explore.add("by walking.");
