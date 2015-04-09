@@ -249,7 +249,7 @@ public class User {
 		this.userImage = img;
 	}
 
-	private void setFlightNum(String flightNum) {
+	public void setFlightNum(String flightNum) {
 		this.flightNum = flightNum;
 		;
 
