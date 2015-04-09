@@ -378,14 +378,13 @@ public class User {
 		if (LoginActivity.currentUser.getAge() == user.getAge()) {
 			detailsTypes.add(3);
 		}
-		if (LoginActivity.currentUser.getDegree() == user.getDegree()) {
+		if (!user.getDegree().equals("")) {
 			detailsTypes.add(4);
 		}
-		if (LoginActivity.currentUser.getWork() == user.getWork()) {
+		if (!user.getWork().equals("")) {
 			detailsTypes.add(5);
 		}
-		if (LoginActivity.currentUser.getConnectionAirport() == user
-				.getConnectionAirport()) {
+		if (LoginActivity.currentUser.getConnectionAirport() == user.getConnectionAirport()) {
 			detailsTypes.add(6);
 		}
 	}
@@ -394,7 +393,9 @@ public class User {
 		if (watingTime != null) {
 			return watingTime;
 		} else {
-			return "";
+			Random r= new Random();
+			r.nextInt(16);
+			return ((r.nextInt(16)+1)+" hours wait!");
 		}
 	}
 

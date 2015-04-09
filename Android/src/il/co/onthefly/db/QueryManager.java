@@ -104,4 +104,11 @@ public class QueryManager extends AsyncTask<String, Void, String> {
 			delegate.processFinish(result);
 		}
 	}
+
+	public String addFeedQuery(String id, String imgURL, String userName,
+			String status, String type) {
+		String query = "http://192.185.24.123/~otf/new_feed.php?id="+id+"&img="+imgURL+"&name="+userName+"&status="+status+"&type="+type;
+		this.expectResolt = false;
+		return query;
+	}
 }

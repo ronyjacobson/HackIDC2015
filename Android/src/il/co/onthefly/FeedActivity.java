@@ -7,13 +7,17 @@ import il.co.onthefly.db.User;
 import il.co.onthefly.util.ExpandableListAdapter;
 
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -22,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -39,8 +44,9 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 	ExpandableListView expListView;
 	List<String> listDataHeader;
 	HashMap<String, List<String>> listDataChild;
-	String[] meetText = new String[] { "You should meet!", "This sounds fun!",
-			"Why not join?", "Great option!", "", "", "", "" };
+	String[] meetText = new String[] {"", "", "", "", "You should meet!",
+			"This sounds fun!", "Why not join?", "Great option!", "", "", "", ""};
+	EditText editText;
 
 	public String getMeetText() {
 		Random r = new Random();
@@ -51,6 +57,7 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 	ArrayList<FeedEntry> feedEntrysList;
 	QueryManager qm;
 	View rootView;
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,6 +68,19 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 
 		View feed = inflater.inflate(R.layout.activity_feed, container, false);
 		rootView = feed;
+		
+		
+		/////////////////////////////////////////////////////////////////////////////
+		// Add Feeds - run this one time
+		String id="";
+		String imgURL="";
+		String userName="";
+		String status="";
+		String type="";
+		//String query= qm.addFeedQuery(id,imgURL,userName,status,type);
+		//qm.execute(query);
+		/////////////////////////////////////////////////////////////////////////////
+		
 		return feed;
 
 	}
@@ -73,7 +93,8 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 
 		/* List View */
 		ListView listView = (ListView) rootView.findViewById(R.id.list_feed);
-		FeedListAdapter feedListAdapter = new FeedListAdapter(getActivity(),feedEntrysList);
+		FeedListAdapter feedListAdapter = new FeedListAdapter(getActivity(),
+				feedEntrysList);
 
 		/*
 		 * Swipe Adapter Wrap list adapter with swipe
@@ -151,13 +172,14 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 				// get the listview
 				expListView = (ExpandableListView) dialog
 						.findViewById(R.id.expandableListView);
-
+				editText = (EditText) dialog
+						.findViewById(R.id.addPosttextBox);
+				
 				// preparing list data
 				prepareListData();
 
-				listAdapter = new ExpandableListAdapter(
-						getActivity().getApplicationContext(), listDataHeader,
-						listDataChild);
+				listAdapter = new ExpandableListAdapter(getActivity()
+						.getApplicationContext(), listDataHeader, listDataChild);
 
 				// setting list adapter
 				expListView.setAdapter(listAdapter);
@@ -168,10 +190,17 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 				okButton.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						dialog.dismiss();
+						qm.expectResolt=false;
+						String id=LoginActivity.currentUser.getFacebookID();
+						String img="https://graph.facebook.com/"+id+"/picture";
+						String name=LoginActivity.currentUser.getFirstName();
+						String status=editText.getText().toString();
+						String type=String.valueOf((new Random().nextInt(4)));
+						String query= qm.addFeedQuery(id,img,name,status,type);
+						qm.execute(query);
 					}
 				});
-				
+
 				Button cancelButton = (Button) dialog
 						.findViewById(R.id.dialogButtonCancel);
 				// if button is clicked, post
@@ -188,7 +217,6 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 
 	}
 
-	
 	private class FeedListAdapter extends BaseAdapter {
 		private ArrayList<FeedEntry> feedEntrysList;
 		private LayoutInflater inflater;
@@ -196,7 +224,8 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 		public FeedListAdapter(Context context,
 				ArrayList<FeedEntry> feedEntrysList) {
 			this.feedEntrysList = feedEntrysList;
-			this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			this.inflater = (LayoutInflater) context
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 
 		@Override
@@ -219,7 +248,8 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 			if (convertView == null) {
 				holder = new ViewHolder();
 
-				convertView = inflater.inflate(R.layout.feed_entry_list_item, null);
+				convertView = inflater.inflate(R.layout.feed_entry_list_item,
+						null);
 
 				holder.userName = (TextView) convertView
 						.findViewById(R.id.feed_item_user_name);
@@ -258,7 +288,6 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 			holder.comments.setText(setCommentsText(feedEntry.getComments()
 					.size()));
 			holder.userImage.setProfileId(feedEntry.getUserId());
-			
 			holder.meetText.setVisibility(View.GONE);
 			int index = feedEntry.getEntryTypeCode();
 
@@ -289,8 +318,11 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 		case 0: // Pass Time
 			status.setText("is looking to pass time");
 			status.setTextColor(getResources().getColor(R.color.blue_text));
-			meetText.setText(getMeetText());
-			meetText.setVisibility(View.VISIBLE);
+			if (!getMeetText().equals("")) {
+				meetText.setText(getMeetText());
+				meetText.setVisibility(View.VISIBLE);
+				meetText.setBackgroundColor(Color.parseColor("#c00000"));
+			}
 			if (detailImage != null)
 				detailImage.setImageDrawable(getResources().getDrawable(
 						R.drawable.ic_feedentry_time));
@@ -298,8 +330,11 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 		case 1: // Eat
 			status.setText("wants to eat something");
 			status.setTextColor(getResources().getColor(R.color.green_text));
-			meetText.setText(getMeetText());
-			meetText.setVisibility(View.VISIBLE);
+			if (!getMeetText().equals("")) {
+				meetText.setText(getMeetText());
+				meetText.setVisibility(View.VISIBLE);
+				meetText.setBackgroundColor(Color.parseColor("#c00000"));
+			}
 			if (detailImage != null)
 				detailImage.setImageDrawable(getResources().getDrawable(
 						R.drawable.ic_feedentry_food));
@@ -314,8 +349,11 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 		case 3: // Explore
 			status.setText("is looking to explore the city");
 			status.setTextColor(getResources().getColor(R.color.lilach_text));
-			meetText.setText(getMeetText());
-			meetText.setVisibility(View.VISIBLE);
+			if (!getMeetText().equals("")) {
+				meetText.setText(getMeetText());
+				meetText.setVisibility(View.VISIBLE);
+				meetText.setBackgroundColor(Color.parseColor("#c00000"));
+			}
 			if (detailImage != null)
 				detailImage.setImageDrawable(getResources().getDrawable(
 						R.drawable.ic_feedentry_explore));
@@ -411,7 +449,7 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 
 		return feedEntrysList;
 	}
-	
+
 	/*
 	 * Preparing the list data
 	 */
@@ -433,7 +471,6 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 		passTime.add("by playing a game.");
 		passTime.add("by watching a movie.");
 
-
 		List<String> eat = new ArrayList<String>();
 		eat.add("at a coffee shop.");
 		eat.add("at a resturant.");
@@ -442,13 +479,14 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 		cab.add("to the city.");
 		cab.add("to the seaport.");
 		cab.add("to the suburbs.");
-		
+
 		List<String> explore = new ArrayList<String>();
 		explore.add("by walking.");
 		explore.add("by bus.");
 		explore.add("by tour.");
 
-		listDataChild.put(listDataHeader.get(0), passTime); // Header, Child data
+		listDataChild.put(listDataHeader.get(0), passTime); // Header, Child
+															// data
 		listDataChild.put(listDataHeader.get(1), eat);
 		listDataChild.put(listDataHeader.get(2), cab);
 		listDataChild.put(listDataHeader.get(3), explore);

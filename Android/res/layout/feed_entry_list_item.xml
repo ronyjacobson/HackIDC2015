@@ -64,7 +64,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/linearLayout1"
-        android:background="#c00000"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:text="3 comments"
