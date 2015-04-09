@@ -1,7 +1,5 @@
 package il.co.onthefly.db;
 
-import il.co.onthefly.FeedActivity;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,6 +17,7 @@ public class QueryManager extends AsyncTask<String, Void, String> {
 	public boolean DB = true;
 	public String result;
 	public AsyncResponse delegate = null;
+	public boolean expectResolt;
 
 	public QueryManager(AsyncResponse delegate) {
 		this.delegate = delegate;
@@ -101,6 +100,8 @@ public class QueryManager extends AsyncTask<String, Void, String> {
 
 	@Override
 	protected void onPostExecute(String result) {
-		delegate.processFinish(result);
+		if (expectResolt) {
+			delegate.processFinish(result);
+		}
 	}
 }

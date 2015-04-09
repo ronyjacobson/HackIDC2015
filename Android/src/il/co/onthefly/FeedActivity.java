@@ -1,5 +1,6 @@
 package il.co.onthefly;
 
+import il.co.onthefly.db.AsyncResponse;
 import il.co.onthefly.db.FeedEntry;
 import il.co.onthefly.db.QueryManager;
 import il.co.onthefly.db.User;
@@ -55,6 +56,7 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		qm = new QueryManager(this);
+		qm.expectResolt = true;
 		qm.execute("http://192.185.24.123/~otf/feed.php");
 
 		View feed = inflater.inflate(R.layout.activity_feed, container, false);
