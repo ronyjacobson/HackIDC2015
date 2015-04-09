@@ -190,6 +190,7 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 				okButton.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
+						qm=new QueryManager(FeedActivity.this);
 						qm.expectResolt=false;
 						String id=LoginActivity.currentUser.getFacebookID();
 						String img="https://graph.facebook.com/"+id+"/picture";
@@ -198,6 +199,7 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 						String type=String.valueOf((new Random().nextInt(4)));
 						String query= qm.addFeedQuery(id,img,name,status,type);
 						qm.execute(query);
+						dialog.dismiss();
 					}
 				});
 

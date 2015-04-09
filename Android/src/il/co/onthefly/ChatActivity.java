@@ -36,10 +36,10 @@ public class ChatActivity extends Fragment {
 
 		/* List View */
 		ListView listView = (ListView) chat.findViewById(R.id.list_chat);
-		MessagesListAdapter usersListAdapter = new MessagesListAdapter(getActivity(),
-				getMessages());
+		MessagesListAdapter usersListAdapter = new MessagesListAdapter(
+				getActivity(), getMessages());
 		listView.setAdapter(usersListAdapter);
-		
+
 		return chat;
 	}
 
@@ -85,11 +85,12 @@ public class ChatActivity extends Fragment {
 						.findViewById(R.id.msg_image0);
 
 				// Set Font
-				Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/GOTHIC.TTF"); 
+				Typeface type = Typeface.createFromAsset(getActivity()
+						.getAssets(), "fonts/GOTHIC.TTF");
 				holder.name.setTypeface(type);
 				holder.time.setTypeface(type);
 				holder.msgText.setTypeface(type);
-				
+
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
@@ -97,25 +98,38 @@ public class ChatActivity extends Fragment {
 
 			Message message = messageList.get(position);
 			holder.name.setText(message.getUser().getFirstName());
+			
+			if (position == 0) {
+				holder.userImage.setImageDrawable(getResources().getDrawable(
+						R.drawable.tomer));
+			}
+			if (position == 1) {
+			holder.userImage.setImageDrawable(getResources().getDrawable(
+					R.drawable.matan));
+			}
+			if (position == 2) {
+			holder.userImage.setImageDrawable(getResources().getDrawable(
+					R.drawable.emily));
+			}
 
 			setMessage(holder.msgText, holder.msgImage, holder.time, message);
 
 			return convertView;
 		}
 
-		private void setMessage(TextView msgText, ImageView msgImage, TextView time,
-				Message message) {
+		private void setMessage(TextView msgText, ImageView msgImage,
+				TextView time, Message message) {
 			msgText.setVisibility(View.VISIBLE);
 			msgImage.setVisibility(View.VISIBLE);
 
-			if (!message.isSentMessage()){
+			if (!message.isSentMessage()) {
 				msgImage.setImageDrawable(getResources().getDrawable(
 						R.drawable.ic_arrow_received));
 			} else {
 				msgImage.setImageDrawable(getResources().getDrawable(
 						R.drawable.ic_sent));
 			}
-			
+
 			msgText.setText(message.getText());
 			time.setText(message.getTime());
 		}
@@ -145,13 +159,16 @@ public class ChatActivity extends Fragment {
 		usersList.add(u1);
 
 		/** MOCK MESSAGES **/
-		Message m1 = new Message(usersList.get(0), null, false, "Great! :) See you there!", "seen 10 minutes ago");
+		Message m1 = new Message(usersList.get(0), null, false,
+				"Great! :) See you there!", "seen 10 minutes ago");
 		messagesList.add(m1);
-		m1 = new Message(usersList.get(1), null, true, "Hey dude!", "seen 1 hour ago");
+		m1 = new Message(usersList.get(1), null, true, "Hey dude!",
+				"seen 1 hour ago");
 		messagesList.add(m1);
-		m1 = new Message(usersList.get(2), null, true, "I’ll will be at FCO at 11am.", "seen 1 hour and 20 minuts ago");
+		m1 = new Message(usersList.get(2), null, true,
+				"I’ll will be at FCO at 11am.", "seen 1 hour and 20 minuts ago");
 		messagesList.add(m1);
-		
+
 		return messagesList;
 	}
 }
