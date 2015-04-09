@@ -291,6 +291,7 @@ public class User {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthday = birthday;
+		this.age = "26";
 		this.kids = "1";
 		this.country = country;
 		this.email = email;
@@ -372,10 +373,10 @@ public class User {
 		if (LoginActivity.currentUser.withKids() && user.withKids()) {
 			detailsTypes.add(1);
 		}
-		if (LoginActivity.currentUser.getCountry() == user.getCountry()) {
+		if (LoginActivity.currentUser.getCountry().equals(user.getCountry())) {
 			detailsTypes.add(2);
 		}
-		if (LoginActivity.currentUser.getAge() == user.getAge()) {
+		if (LoginActivity.currentUser.getAge().equals(user.getAge())) {
 			detailsTypes.add(3);
 		}
 		if (!user.getDegree().equals("")) {
@@ -384,7 +385,7 @@ public class User {
 		if (!user.getWork().equals("")) {
 			detailsTypes.add(5);
 		}
-		if (LoginActivity.currentUser.getConnectionAirport() == user.getConnectionAirport()) {
+		if (LoginActivity.currentUser.getConnectionAirport().equals(user.getConnectionAirport())) {
 			detailsTypes.add(6);
 		}
 	}
