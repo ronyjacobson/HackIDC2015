@@ -385,18 +385,17 @@ public class User {
 		if (!user.getWork().equals("")) {
 			detailsTypes.add(5);
 		}
-		if (LoginActivity.currentUser.getConnectionAirport().equals(user.getConnectionAirport())) {
+		if (LoginActivity.currentUser.getConnectionAirport().equals(
+				user.getConnectionAirport())) {
 			detailsTypes.add(6);
 		}
 	}
 
 	public String getWatingTime() {
-		if (watingTime != null) {
-			return watingTime;
+		if (watingTime != null || !(watingTime.equals(""))) {
+			return watingTime + " hours wait!";
 		} else {
-			Random r= new Random();
-			r.nextInt(16);
-			return ((r.nextInt(16)+1)+" hours wait!");
+			return "";
 		}
 	}
 
