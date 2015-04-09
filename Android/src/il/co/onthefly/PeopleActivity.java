@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +39,9 @@ public class PeopleActivity extends Fragment implements AsyncResponse {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
 		qm = new QueryManager(this);
+		qm.expectResolt = true;
 		qm.execute("http://192.185.24.123/~otf/match.php");
 		View people = inflater.inflate(R.layout.activity_people, container,
 				false);
@@ -53,7 +56,7 @@ public class PeopleActivity extends Fragment implements AsyncResponse {
 
 		public UsersListAdapter(Context context, List<User> usersList) {
 			this.usersList = usersList;
-			this.inflater = LayoutInflater.from(context);
+			this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 
 		@Override
@@ -116,7 +119,7 @@ public class PeopleActivity extends Fragment implements AsyncResponse {
 			holder.name.setText(user.getFirstName() + ", " + user.getAge());
 			holder.timeLeft.setText(user.getWatingTime());
 			holder.userImage.setProfileId(user.getId());
-			
+
 			/**
 			 * setDetails(new Random().nextInt(7), holder.detail0,
 			 * holder.detailImage0, user); setDetails(new Random().nextInt(7),
@@ -141,6 +144,7 @@ public class PeopleActivity extends Fragment implements AsyncResponse {
 					if (i == randItemNum) {
 						type = set_type;
 						types.remove(set_type);
+						break;
 					}
 					i = i + 1;
 				}
@@ -298,12 +302,12 @@ public class PeopleActivity extends Fragment implements AsyncResponse {
 	public void processFinish(String result) {
 
 		usersList = qm.parsePeopleResponse(result);
-		// ((ProgressBar) findViewById(R.id.progress)).setVisibility(View.GONE);
+		((ProgressBar) rootView.findViewById(R.id.progress))
+				.setVisibility(View.GONE);
 
 		/* List View */
 		ListView listView = (ListView) rootView.findViewById(R.id.list_people);
-		UsersListAdapter usersListAdapter = new UsersListAdapter(getActivity(),
-				usersList);
+		UsersListAdapter usersListAdapter = new UsersListAdapter(getActivity(),	usersList);
 
 		/*
 		 * Swipe Adapter Wrap list adapter with swipe

@@ -388,7 +388,6 @@ public class User {
 				.getConnectionAirport()) {
 			detailsTypes.add(6);
 		}
-
 	}
 
 	public String getWatingTime() {
