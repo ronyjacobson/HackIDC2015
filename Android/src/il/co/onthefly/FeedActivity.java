@@ -83,7 +83,11 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 
 	public void processFinish(String result) {
 
-		feedEntrysList = qm.parseFeedResponse(result);
+		// Disable feed from server
+		// feedEntrysList = qm.parseFeedResponse(result);
+		// Enable mock feed
+		feedEntrysList = getFeed();
+		
 		((ProgressBar) rootView.findViewById(R.id.progress_feed))
 				.setVisibility(View.GONE);
 
@@ -283,13 +287,18 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 			// Set Feed:
 			holder.userName.setText(feedEntry.getUserName());
 			holder.content.setText(feedEntry.getContent());
-			holder.comments.setText(setCommentsText(feedEntry.getComments()
-					.size()));
-			holder.userImage.setProfileId(feedEntry.getUserId());
+			if (position != 2 && position != 5){
+				holder.comments.setText(setCommentsText(feedEntry.getComments()
+						.size()));
+			} else {
+				holder.comments.setText("");
+			}
+			holder.userImage.setProfileId(feedEntry.getUser().getId());
 			holder.meetText.setVisibility(View.GONE);
-			int index = feedEntry.getEntryTypeCode();
+			// Disabled for mock
+			// int index = feedEntry.getEntryTypeCode();
 
-			setContentValues(index, holder.status, holder.meetText,
+			setContentValues(position, holder.status, holder.meetText,
 					holder.statusImage);
 
 			return convertView;
@@ -339,14 +348,18 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 				detailImage.setImageDrawable(getResources().getDrawable(
 						R.drawable.ic_feedentry_food));
 			break;
-		case 2: // Cab
+		case 2: // Advertisement 1
+			status.setVisibility(View.GONE);
+			detailImage.setVisibility(View.GONE);
+			break;
+		case 3: // Cab
 			status.setText("wants to share a cab");
 			status.setTextColor(getResources().getColor(R.color.yellow_text));
 			if (detailImage != null)
 				detailImage.setImageDrawable(getResources().getDrawable(
 						R.drawable.ic_feedentry_taxi));
 			break;
-		case 3: // Explore
+		case 4: // Explore
 			status.setText("is looking to explore the city");
 			status.setTextColor(getResources().getColor(R.color.lilach_text));
 			meet = getMeetText();
@@ -359,13 +372,22 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 				detailImage.setImageDrawable(getResources().getDrawable(
 						R.drawable.ic_feedentry_explore));
 			break;
-		case 4: // Advertisement 1
+		case 5: // Advertisement 2
 			status.setVisibility(View.GONE);
 			detailImage.setVisibility(View.GONE);
 			break;
-		case 5: // Advertisement 1
-			status.setVisibility(View.GONE);
-			detailImage.setVisibility(View.GONE);
+		case 6: // Pass Time
+			status.setText("is looking to pass time");
+			status.setTextColor(getResources().getColor(R.color.blue_text));
+			meet = getMeetText();
+			if (!("").equals(meet)) {
+				meetText.setText(meet);
+				meetText.setVisibility(View.VISIBLE);
+				meetText.setBackgroundColor(Color.parseColor("#c00000"));
+			}
+			if (detailImage != null)
+				detailImage.setImageDrawable(getResources().getDrawable(
+						R.drawable.ic_feedentry_time));
 			break;
 		}
 	}
@@ -384,63 +406,41 @@ public class FeedActivity extends Fragment implements AsyncResponse {
 
 		/** MOCK FEED Entries **/
 		if (true) {// !qm.DB) {
-			User u1 = new User("facebookID", "img_src", "Rony", "Jacobson",
-					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-					"Paris");
-
+			
+			User u1 = new User("100003220909039", "Kevin", "28", "6", "Computer Science", "BlogMe", "UK", 0, 4);
 			FeedEntry entry1 = new FeedEntry(u1,
-					"This is the content of the status");
+					"Hey! How wants to hang out?? I’m in terminal 5 right next to starbucks…");
 			feedEntrysList.add(entry1);
-
-			u1 = new User("facebookID", "img_src", "Alon", "Grinshpoon",
-					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-					"Paris");
-			entry1 = new FeedEntry(u1, "This is the content of the status");
+			
+			
+			u1 = new User("672712500", "Tomer", "26", "5", "Economics", "HackIDC", "Israel", 1, 3, 2);
+			entry1 = new FeedEntry(u1,
+					"Who’s hungry…? In the mood for Chinese!");
 			feedEntrysList.add(entry1);
-
-			u1 = new User("facebookID", "img_src", "Dani", "B", "08/07/89",
-					"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-			entry1 = new FeedEntry(u1, "This is the content of the status");
+			
+			u1 = new User("22092443056", "Starbuck cafe at terminal 3", "25", "3", "Law", "HackIDC", "Israel", 0, 5, 2);
+			entry1 = new FeedEntry(u1,
+					"OnTheFly users enjoy a free cup of coffee with a purchase of a regular sized coffee. Visit us at terminal 3.");
 			feedEntrysList.add(entry1);
-
-			u1 = new User("facebookID", "img_src", "Idan", "Tsitaiat",
-					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-					"Paris");
-			entry1 = new FeedEntry(u1, "This is the content of the status");
+			
+			u1 = new User("100002716947692", "Catherina", "56", "3", "Computer Science", "RedHat", "USA", 4, 5);
+			entry1 = new FeedEntry(u1,
+					"Going to the town’s central area, anyone up for sharing a taxi?");
 			feedEntrysList.add(entry1);
-
-			u1 = new User("facebookID", "img_src", "Aviad", "Levi", "08/07/89",
-					"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-			entry1 = new FeedEntry(u1, "This is the content of the status");
+			
+			u1 = new User("592593574", "Ofer", "56", "3", "Computer Science", "RedHat", "USA", 4, 5);
+			entry1 = new FeedEntry(u1,
+					"Long wait and thought of exploring the city. Who wants to come?");
 			feedEntrysList.add(entry1);
-
-			u1 = new User("facebookID", "img_src", "Rony", "Jacobson",
-					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-					"Paris");
-			entry1 = new FeedEntry(u1, "This is the content of the status");
+			
+			u1 = new User("68120344353", "10% of all gadgets", "56", "3", "Computer Science", "RedHat", "USA", 4, 5);
+			entry1 = new FeedEntry(u1,
+					"Beats by Dr. Dre® Solo 2 Headphones for just 199.99$. Only for OnTheFly users! Visit us a terminal 2.");
 			feedEntrysList.add(entry1);
-
-			u1 = new User("facebookID", "img_src", "Alon", "Grinshpoon",
-					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-					"Paris");
-			entry1 = new FeedEntry(u1, "This is the content of the status");
-			feedEntrysList.add(entry1);
-
-			u1 = new User("facebookID", "img_src", "Idan", "Tsitaiat",
-					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-					"Paris");
-			entry1 = new FeedEntry(u1, "This is the content of the status");
-			feedEntrysList.add(entry1);
-
-			u1 = new User("facebookID", "img_src", "Aviad", "Levi", "08/07/89",
-					"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-			entry1 = new FeedEntry(u1, "This is the content of the status");
-			feedEntrysList.add(entry1);
-
-			u1 = new User("facebookID", "img_src", "Rony", "Jacobson",
-					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-					"Paris");
-			entry1 = new FeedEntry(u1, "This is the content of the status");
+			
+			u1 = new User("542737197", "Gal", "56", "3", "Computer Science", "RedHat", "USA", 4, 5);
+			entry1 = new FeedEntry(u1,
+					"10 hours to burn. Though of watching a long movie. Any LOTR fans?");
 			feedEntrysList.add(entry1);
 		}
 

@@ -4,16 +4,7 @@ import il.co.onthefly.db.Message;
 import il.co.onthefly.db.User;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
-
-import com.google.android.gms.internal.me;
-import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
-import com.wdullaer.swipeactionadapter.SwipeDirections;
-import com.wdullaer.swipeactionadapter.SwipeActionAdapter.SwipeActionListener;
-
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -25,7 +16,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ChatActivity extends Fragment {
 
@@ -36,9 +26,9 @@ public class ChatActivity extends Fragment {
 
 		/* List View */
 		ListView listView = (ListView) chat.findViewById(R.id.list_chat);
-		MessagesListAdapter usersListAdapter = new MessagesListAdapter(
+		MessagesListAdapter messagesListAdapter = new MessagesListAdapter(
 				getActivity(), getMessages());
-		listView.setAdapter(usersListAdapter);
+		listView.setAdapter(messagesListAdapter);
 
 		return chat;
 	}

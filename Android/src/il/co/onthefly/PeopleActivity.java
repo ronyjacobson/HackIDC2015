@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -230,7 +229,7 @@ public class PeopleActivity extends Fragment implements AsyncResponse {
 		}
 	}
 
-	public List<User> getUsers() {
+	public ArrayList<User> getUsers() {
 
 		/** Get Users from DB and parse them to a list **/
 		ArrayList<User> usersList = new ArrayList<User>();
@@ -244,56 +243,20 @@ public class PeopleActivity extends Fragment implements AsyncResponse {
 
 		/** MOCK USERS **/
 		if (true) {// !qm.DB) {
-			User u1 = new User("facebookID", "img_src", "Rony", "Jacobson",
-					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-					"Paris");
+					
+			User u1 = new User("557593671", "Matan", "26", "8", "Law", "HackIDC", "Israel", 2, 3, 0);
+			usersList.add(u1);
+			u1 = new User("100003220909039", "Kevin", "28", "6", "Computer Science", "BlogMe", "UK", 0, 4);
+			usersList.add(u1);
+			u1 = new User("810389724", "Aviya", "26", "5", "Economics", "HackIDC", "Israel", 1, 3, 2);
+			usersList.add(u1);
+			u1 = new User("542737197", "Gal", "25", "3", "Law", "HackIDC", "Israel", 0, 5, 2);
+			usersList.add(u1);
+			u1 = new User("894145242", "Donnie", "56", "3", "Computer Science", "RedHat", "USA", 4, 5);
 			usersList.add(u1);
 
-			FeedEntry entry1 = new FeedEntry(u1,
-					"This is the content of the status");
-			usersList.add(u1);
-
-			u1 = new User("facebookID", "img_src", "Alon", "Grinshpoon",
-					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-					"Paris");
-			usersList.add(u1);
-
-			u1 = new User("facebookID", "img_src", "Dani", "B", "08/07/89",
-					"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-			usersList.add(u1);
-
-			u1 = new User("facebookID", "img_src", "Idan", "Tsitaiat",
-					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-					"Paris");
-			usersList.add(u1);
-
-			u1 = new User("facebookID", "img_src", "Aviad", "Levi", "08/07/89",
-					"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-			usersList.add(u1);
-
-			u1 = new User("facebookID", "img_src", "Rony", "Jacobson",
-					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-					"Paris");
-			usersList.add(u1);
-
-			u1 = new User("facebookID", "img_src", "Alon", "Grinshpoon",
-					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-					"Paris");
-			usersList.add(u1);
-
-			u1 = new User("facebookID", "img_src", "Idan", "Tsitaiat",
-					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-					"Paris");
-			usersList.add(u1);
-
-			u1 = new User("facebookID", "img_src", "Aviad", "Levi", "08/07/89",
-					"Israel", "", "", "", "RedHat", "818LY", "BGU", "Paris");
-			usersList.add(u1);
-
-			u1 = new User("facebookID", "img_src", "Rony", "Jacobson",
-					"08/07/89", "Israel", "", "", "", "RedHat", "818LY", "BGU",
-					"Paris");
-			usersList.add(u1);
+			//FeedEntry entry1 = new FeedEntry(u1,"This is the content of the status");
+			//usersList.add(u1);
 		}
 
 		return usersList;
@@ -301,7 +264,11 @@ public class PeopleActivity extends Fragment implements AsyncResponse {
 
 	public void processFinish(String result) {
 
-		usersList = qm.parsePeopleResponse(result);
+		// Disable users from server
+		// usersList = qm.parsePeopleResponse(result);
+		// Enable mock users
+		usersList = getUsers();
+		
 		((ProgressBar) rootView.findViewById(R.id.progress))
 				.setVisibility(View.GONE);
 

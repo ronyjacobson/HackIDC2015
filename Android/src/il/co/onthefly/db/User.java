@@ -18,7 +18,7 @@ public class User {
 	private String lastName;
 	private String birthday;
 	private String age;
-	private String watingTime;
+	private String waitingTime;
 	private String kids;
 	private String country;
 	private String email;
@@ -40,6 +40,20 @@ public class User {
 	public User(String firstName, String lastName) {
 		this.firstName = firstName;
 		this.lastName = lastName;
+	}
+	
+	public User(String id, String firstName, String age, String waitingTime, String degree, String work, String country, Integer... detailsTypes) {
+		// This constructor is used for mock results
+		this.id = id;
+		this.firstName = firstName;
+		this.age = age;
+		this.waitingTime = waitingTime;
+		this.degree = degree;
+		this.work = work;
+		this.country = country;
+		for (int i : detailsTypes){
+			this.detailsTypes.add(i);
+		}
 	}
 
 	public String getId() {
@@ -261,7 +275,7 @@ public class User {
 	}
 
 	private void setWaitingTime(String time) {
-		this.watingTime = time;
+		this.waitingTime = time;
 
 	}
 
@@ -301,7 +315,7 @@ public class User {
 		this.flightNum = flightNum;
 		this.origin = origin;
 		this.destination = destination;
-		this.watingTime = (new Random().nextInt(16)) + " hours wait!";
+		this.waitingTime = String.valueOf(new Random().nextInt(16));
 	}
 
 	public static User parseJsonToUserItem(JSONObject json) {
@@ -392,8 +406,8 @@ public class User {
 	}
 
 	public String getWatingTime() {
-		if (watingTime != null || !(watingTime.equals(""))) {
-			return watingTime + " hours wait!";
+		if (waitingTime != null || !(waitingTime.equals(""))) {
+			return waitingTime  + " hours wait!";
 		} else {
 			return "";
 		}

@@ -141,9 +141,9 @@ public class FeedEntry {
 	
 	public String getUserId() {
 		if (this.user == null) {
-			return this.userId;
+			return "";
 		} if (this.userId != null) {
-			return this.userId;
+			return this.user.getId();
 		} else return "";
 	}
 
